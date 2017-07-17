@@ -2,11 +2,14 @@ package com.example.dburtnja.androidticketfinder10;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,23 +29,18 @@ public class Main2Activity extends AppCompatActivity {
 
         Ticket              ticket;
         Gson                gson;
+        Intent              intent;
 
+        intent = getIntent();
         gson = new Gson();
         webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-        ticket = gson.fromJson(savedInstanceState.getString("ticket"), Ticket.class);
-      /*  if (ticket.isHaveTicket())
+        ticket = gson.fromJson(intent.getStringExtra("ticket"), Ticket.class);
+        if (ticket.isHaveTicket())
             webView.loadUrl(showCart(ticket));
         else
-            webView.loadUrl(showSearchDay(ticket));*/
-    }
-
-    private String showSearchDay(Ticket ticket){
-        String  url;
-
-        url = "s";
-        return (url);
+            webView.postUrl("https://booking.uz.gov.ua/mobile/train_search", ticket.getSearchParamMobile());
     }
 
     private String showCart(Ticket ticket){

@@ -133,6 +133,22 @@ public class Ticket {
         return (params);
     }
 
+    public byte[] getSearchParamMobile(){
+        String  param;
+
+        param = "date=" + "2017-07-17" +
+                "&from=" + stationFrom.getValue() +
+                "&time=" + "00%3A00" +
+                "&to=" + stationTill.getValue() +
+                "&get_tpl=1";
+        try {
+            return param.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public class Station {
         private String  title;
         private String  region;
