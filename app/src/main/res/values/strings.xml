@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TicketFinderAndroid</string>
+    <string name="fromStation">Станція відправлення</string>
+    <string name="tillStation">Станція прибуття</string>
+    <string name="timeDepStr">Початкова дата відправлення</string>
+    <string name="timeDepEndStr">Кінцева дата відправлення</string>
+    <string name="Pstr">Плацкарт</string>
+    <string name="Kstr">Купе</string>
+    <string name="C1">C1</string>
+    <string name="C2">C2</string>
+    <string name="firstName">Ім\'я</string>
+    <string name="lastName">Прізвище</string>
+    <string name="start">Почати пошук</string>
+    <string name="lookUp">Переглянути</string>
+    <string name="stop">Зупинити</string>
+</resources>
