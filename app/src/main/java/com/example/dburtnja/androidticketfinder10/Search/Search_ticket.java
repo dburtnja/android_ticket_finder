@@ -31,6 +31,7 @@ public class Search_ticket {
     private Context                     service;
     private RequestQueue                queue;
     public Response.ErrorListener       errorListener;
+    private int                         counter;
 
     public Search_ticket(final Ticket ticket, Context service) {
         this.ticket = ticket;

@@ -1,7 +1,6 @@
 package com.example.dburtnja.androidticketfinder10;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +11,11 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -27,8 +24,6 @@ import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.TicketDate;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.Train;
 import com.google.gson.Gson;
-
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private Ticket          ticket;
@@ -137,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
                 alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 ticket.setName(R.id.firstName, R.id.lastName, MainActivity.this);
-                if (ticket.checkIfAllSet(MainActivity.this)){
+                if (ticket.checkIfAllSet(MainActivity.this, true)){
                     startButton.setEnabled(false);
                     intent = new Intent(MainActivity.this, MyService.class);
                     intent.putExtra("ticket", gson.toJson(ticket));
@@ -153,9 +148,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent  intent;
 
-                intent = new Intent(MainActivity.this, Main2Activity.class);
-                intent.putExtra("ticket", gson.toJson(ticket));
-                startActivity(intent);
+                if (ticket.checkIfAllSet(MainActivity.this, false)) {
+                    intent = new Intent(MainActivity.this, Main2Activity.class);
+                    intent.putExtra("ticket", gson.toJson(ticket));
+                    startActivity(intent);
+                }
             }
         });
 

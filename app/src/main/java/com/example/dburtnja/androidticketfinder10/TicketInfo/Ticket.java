@@ -1,5 +1,6 @@
 package com.example.dburtnja.androidticketfinder10.TicketInfo;
 
+import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -99,7 +100,7 @@ public class Ticket {
         sTill.setText(stationTill != null ? stationTill.getTitle() : "");
     }
 
-    public boolean checkIfAllSet(MainActivity mainActivity){
+    public boolean checkIfAllSet(MainActivity mainActivity, boolean checkName){
         if (stationFrom == null)
             return mainActivity.toast("Відсутня станція відправлення", true);
         else if (stationTill == null)
@@ -110,9 +111,9 @@ public class Ticket {
             return mainActivity.toast("Відсутній кінцевий час відправлення", true);
         else if (!train.coachIsSet(mainActivity))
             return false;
-        else if (firstName == null || firstName.equals(""))
+        else if (checkName && (firstName == null || firstName.equals("")))
             return mainActivity.toast("Відсутнє ім'я", true);
-        else if (lastName == null || lastName.equals(""))
+        else if (checkName && (lastName == null || lastName.equals("")))
             return mainActivity.toast("Відсутнє прізвище", true);
         return true;
     }
@@ -133,7 +134,7 @@ public class Ticket {
         return (params);
     }
 
-    public byte[] getSearchParamMobile(){
+    public String getSearchParamMobile(){
         String  param;
 
         param = "date=" + "2017-07-17" +
@@ -141,12 +142,7 @@ public class Ticket {
                 "&time=" + "00%3A00" +
                 "&to=" + stationTill.getValue() +
                 "&get_tpl=1";
-        try {
-            return param.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return param;
     }
 
     public class Station {
@@ -200,7 +196,7 @@ public class Ticket {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             activity.toast("Помилка отримання даних станції", true);
-                            Log.e("STATION_ERROR", error.getMessage());
+                            Log.e("STATION_ERROR", error.getMessage() + "");
                         }
                     });
             queue.add(getRequest);

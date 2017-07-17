@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
 import com.google.gson.Gson;
+
 
 public class Main2Activity extends AppCompatActivity {
     private WebView         webView;
@@ -40,7 +40,9 @@ public class Main2Activity extends AppCompatActivity {
         if (ticket.isHaveTicket())
             webView.loadUrl(showCart(ticket));
         else
-            webView.postUrl("https://booking.uz.gov.ua/mobile/train_search", ticket.getSearchParamMobile());
+            //webView.postUrl("https://booking.uz.gov.ua/mobile/train_search", ticket.getSearchParamMobile());
+            webView.loadUrl("https://httpbin.org/post/?" + ticket.getSearchParamMobile());
+
     }
 
     private String showCart(Ticket ticket){
