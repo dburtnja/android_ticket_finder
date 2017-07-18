@@ -18,16 +18,23 @@ public class MyService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Ticket          ticket;
-        Search_ticket   search_ticket;
+    public int onStartCommand(final Intent intent, int flags, int startId) {
+        Thread          thread;
 
-        ticket = gson.fromJson(intent.getStringExtra("ticket"), Ticket.class);
-        ticket.setSimpleFormats();
-        search_ticket = new Search_ticket(ticket, this);
-        search_ticket.checkForTrain();
+        thread = new Thread(){
+            @Override
+            public void run() {
+                Ticket          ticket;
+                Search_ticket   search_ticket;
 
-
+                ticket = gson.fromJson(intent.getStringExtra("ticket"), Ticket.class);
+                ticket.setSimpleFormats();
+                search_ticket = new Search_ticket(ticket, MyService.this);
+                search_ticket.checkForTrain();
+            }
+        };
+        thread.run();
+        
        // ticket.error = false;
         return super.onStartCommand(intent, flags, startId);
     }
