@@ -144,6 +144,21 @@ public class Ticket {
         return (params);
     }
 
+    public Map<String, String> getCoachesParam(String num, String place, String model, long date){
+        Map<String, String> params;
+
+        params = new HashMap<>();
+        params.put("station_id_from", stationFrom.getValue() + "");
+        params.put("station_id_till", stationTill.getValue() + "");
+        params.put("train", num);
+        params.put("coach_type", place);
+        params.put("model", model);
+        params.put("date_dep", date + "");
+        params.put("round_trip", "0");
+        params.put("another_ec", "0");
+        return (params);
+    }
+
     public String getSearchParamMobile(){
         String  param;
 

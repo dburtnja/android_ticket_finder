@@ -107,13 +107,23 @@ public class Search_ticket {
     private void findPlace(JSONObject dataObj){
         try {
             JSONArray   trainList;
+            JSONObject  train;
+            long        depDate;
+            String      place;
+            String      model;
 
             trainList = dataObj.getJSONArray("value");
             for (int i = 0; i < trainList.length(); i++) {
-                if (trainList.getJSONObject(i).getJSONObject("from").getLong("date") <= ticket.dateFromEnd.getDateMS()) {
-                    Log.d("my date", ticket.dateFromEnd.getDateMS() + "");
-                    Log.d("traDate", trainList.getJSONObject(i).getJSONObject("from").getLong("date") + "");
-                    Log.d("trainNbr = ", trainList.getJSONObject(i).getString("num"));
+                train = trainList.getJSONObject(i);
+                depDate = train.getJSONObject("from").getLong("date");
+                if (depDate <= ticket.dateFromEnd.getDateMS()) {
+                    for (int j = 0; j < train.getJSONArray("types").length(); j++){
+                        place = train.getJSONArray("types").getJSONObject(j).getString("letter");
+                        if (ticket.getTrain().isSuitable(place)) {
+                            model = train.getString("model");
+                            Log.d("trainNbr = ", trainList.getJSONObject(i).getString("num"));
+                        }
+                    }
                 }
             }
         } catch (JSONException e) {

@@ -5,6 +5,8 @@ import android.widget.CheckBox;
 import com.example.dburtnja.androidticketfinder10.MainActivity;
 import com.example.dburtnja.androidticketfinder10.R;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class Train {
 
     public boolean isSuitable(String type){
         for (Place place : places){
-            if (place.getName().equals(type))
+            if (place.isValue() && place.getName().equals(type))
                 return true;
         }
         return false;
