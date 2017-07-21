@@ -33,7 +33,7 @@ public class MyService extends Service {
                 search_ticket.checkForTrain();
             }
         };
-        thread.run();
+        thread.start();
         
        // ticket.error = false;
         return super.onStartCommand(intent, flags, startId);

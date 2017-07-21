@@ -40,10 +40,16 @@ public class Ticket {
     private boolean         haveTicket;
     private String          status;
     private boolean         error;
+    private int             responseCounter;
 
     public Ticket(Train train) {
         this.train = train;
         this.haveTicket = false;
+        responseCounter = 0;
+    }
+
+    public void responseCounterAdd(){
+        responseCounter++;
     }
 
     public void setError(String status){
@@ -68,6 +74,10 @@ public class Ticket {
             return false;
         }
         return true;
+    }
+
+    public int getResponseCounter() {
+        return responseCounter;
     }
 
     public Train getTrain() {

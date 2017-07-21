@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     startButton.setEnabled(false);
                     intent = new Intent(MainActivity.this, MyService.class);
                     intent.putExtra("ticket", gson.toJson(ticket));
-                    pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, 0);
+                    pendingIntent = PendingIntent.getService(MainActivity.this, (int)SystemClock.elapsedRealtime(), intent, 0);
                    // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000, pendingIntent);
                     alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), pendingIntent);
                 }
@@ -155,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

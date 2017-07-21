@@ -5,48 +5,73 @@ import android.widget.CheckBox;
 import com.example.dburtnja.androidticketfinder10.MainActivity;
 import com.example.dburtnja.androidticketfinder10.R;
 
+import java.util.List;
+
 /**
  * Created by dburtnja on 06.07.17.
  * Coach type object
  */
 
 public class Train {
-    private boolean      C1;
-    private boolean      C2;
-    private boolean      P;
-    private boolean      K;
+    private Place[] places;
 
     public Train() {
-        C1 = true;
-        C2 = true;
-        P = true;
-        K = true;
+        places = new Place[]{
+                new Place("П", true, R.id.checkP),
+                new Place("С1", false, R.id.checkC1),
+                new Place("С2", false, R.id.checkC2),
+                new Place("К", false, R.id.checkK)
+        };
+    }
+
+    private class Place{
+        private String      name;
+        private boolean     value;
+        private int         checkID;
+
+        public Place(String name, boolean value, int checkID) {
+            this.name = name;
+            this.value = value;
+            this.checkID = checkID;
+        }
+
+        public void setValue(int id, boolean value){
+            if (id == checkID)
+                this.value = value;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public boolean isValue() {
+            return value;
+        }
+    }
+
+    public boolean isSuitable(String type){
+        for (Place place : places){
+            if (place.getName().equals(type))
+                return true;
+        }
+        return false;
     }
 
     public void changeCoach(CheckBox[] checkBoxes){
         for (CheckBox checkBox : checkBoxes){
-            switch (checkBox.getId()){
-                case R.id.checkC1:
-                    C1 = true;
-                    break;
-                case R.id.checkC2:
-                    C2 = true;
-                    break;
-                case R.id.checkP:
-                    P = true;
-                    break;
-                case R.id.checkK:
-                    K = true;
+            for (Place place : places){
+                place.setValue(checkBox.getId(), checkBox.isChecked());
             }
         }
     }
 
     public boolean coachIsSet(MainActivity activity){
-        if (C1 || C2 || P || K)
-            return true;
-        else {
-            activity.toast("Не вказаний тип вагону", true);
-            return false;
+
+        for (Place place : places){
+            if (place.isValue())
+                return true;
         }
+        activity.toast("Не вказаний тип вагону", true);
+        return false;
     }
 }

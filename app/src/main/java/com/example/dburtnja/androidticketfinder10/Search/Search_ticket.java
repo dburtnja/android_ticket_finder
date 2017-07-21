@@ -14,6 +14,7 @@ import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.TicketDate;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,12 +41,25 @@ public class Search_ticket {
     }
 
     public void checkForTrain(){
+        int     responseCounter;
+
+        responseCounter = 0;
         ticket.bufDateFromStart = new TicketDate(ticket.dateFromStart.getDate());
         while (ticket.bufDateFromStart.getDate() < ticket.dateFromEnd.getDate()){
             findTicket();
             Log.d("test", ticket.bufDateFromStart.getStrDate() + " " + ticket.bufDateFromStart.getStrTime());
             ticket.bufDateFromStart = new TicketDate(ticket.bufDateFromStart.getNextDayTime());
+            responseCounter++;
         }
+        Log.d("response Counter", responseCounter + "");
+        while (responseCounter != ticket.getResponseCounter()) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.d("res", "all Volley is finished");
     }
 
     public void findTicket(){
@@ -69,14 +83,16 @@ public class Search_ticket {
         String      jsonStr;
         JSONObject  jsonObj;
 
+        ticket.responseCounterAdd();
         try {
             jsonStr = new String(response.getBytes("ISO-8859-1"), "UTF-8");
-            Log.d("response:77", jsonStr);
+            Log.d("response:88", jsonStr);
             jsonObj = new JSONObject(jsonStr);
             if (jsonObj.getString("error").equals("true")) {
                 ticket.setError(jsonObj.getString("value"));
                 return null;
             }
+            //TODO: need add captcha check!!!
             return jsonObj;
         } catch (UnsupportedEncodingException e) {
             ticket.setError("Кодування не підтримується");
@@ -88,7 +104,20 @@ public class Search_ticket {
         return null;
     }
 
-    private void findPlace(JSONObject trainList){
-            Log.d("test", ticket.bufDateFromStart.getStrDate() + " " + ticket.bufDateFromStart.getStrTime());
+    private void findPlace(JSONObject dataObj){
+        try {
+            JSONArray   trainList;
+
+            trainList = dataObj.getJSONArray("value");
+            for (int i = 0; i < trainList.length(); i++) {
+                if (trainList.getJSONObject(i).getJSONObject("from").getLong("date") <= ticket.dateFromEnd.getDateMS()) {
+                    Log.d("my date", ticket.dateFromEnd.getDateMS() + "");
+                    Log.d("traDate", trainList.getJSONObject(i).getJSONObject("from").getLong("date") + "");
+                    Log.d("trainNbr = ", trainList.getJSONObject(i).getString("num"));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

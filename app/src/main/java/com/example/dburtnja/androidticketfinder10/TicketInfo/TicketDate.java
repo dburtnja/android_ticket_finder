@@ -34,6 +34,10 @@ public class TicketDate {
         return date;
     }
 
+    public long getDateMS(){
+        return date / 1000;
+    }
+
     public String getStrDate() {
         return sDateTicketFormat.format(date);
     }
