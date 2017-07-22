@@ -1,5 +1,7 @@
 package com.example.dburtnja.androidticketfinder10.Search;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -12,16 +14,18 @@ import java.util.Map;
 
 /**
  * Created by dburtnja on 13.07.17.
+ * My Volley request
  */
 
 public class My_StringRequest extends StringRequest {
     private Ticket                  ticket;
     private Map<String, String>     param;
 
-    public My_StringRequest(final String url, Response.Listener<String> listener, final Ticket ticket, Map<String, String> param) {
+    public My_StringRequest(final String url, final Ticket ticket, Map<String, String> param, Response.Listener<String> listener) {
         super(Method.POST, url, listener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("Помилка", url + error.getMessage() + "");
                 ticket.setError("Помилка: " + url);
             }
         });

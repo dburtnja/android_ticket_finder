@@ -1,6 +1,5 @@
 package com.example.dburtnja.androidticketfinder10.TicketInfo;
 
-import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,7 +9,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder10.MainActivity;
 
 import org.json.JSONArray;
@@ -33,23 +31,26 @@ public class Ticket {
     public TicketDate       dateFromStart;
     public TicketDate       dateFromEnd;
     public TicketDate       bufDateFromStart;
-    private Train           train;
+    private Places          places;
     private String          firstName;
     private String          lastName;
     public String           cookie;
     private boolean         haveTicket;
+    private Train           myTrain;
     private String          status;
     private boolean         error;
-    private int             responseCounter;
 
-    public Ticket(Train train) {
-        this.train = train;
+    public Ticket(Places places) {
+        this.places = places;
         this.haveTicket = false;
-        responseCounter = 0;
     }
 
-    public void responseCounterAdd(){
-        responseCounter++;
+    public void setMyTrain(String num, long depDate, String place, String model) {
+        this.myTrain = new Train(num, depDate, place, model);
+    }
+
+    public void setMyTrainCoach(int coachNum, String coachClass, int coachTypeId){
+        myTrain.setCoach(coachNum, coachClass, coachTypeId);
     }
 
     public void setError(String status){
@@ -76,12 +77,8 @@ public class Ticket {
         return true;
     }
 
-    public int getResponseCounter() {
-        return responseCounter;
-    }
-
-    public Train getTrain() {
-        return train;
+    public Places getPlaces() {
+        return places;
     }
 
     public Station getStationFrom() {
@@ -119,7 +116,7 @@ public class Ticket {
             return mainActivity.toast("Відсутній час відправлення", true);
         else if (dateFromEnd.getDate() == -1)
             return mainActivity.toast("Відсутній кінцевий час відправлення", true);
-        else if (!train.coachIsSet(mainActivity))
+        else if (!places.coachIsSet(mainActivity))
             return false;
         else if (checkName && (firstName == null || firstName.equals("")))
             return mainActivity.toast("Відсутнє ім'я", true);
@@ -144,18 +141,33 @@ public class Ticket {
         return (params);
     }
 
-    public Map<String, String> getCoachesParam(String num, String place, String model, long date){
+    public Map<String, String> getCoachesParam(){
         Map<String, String> params;
 
         params = new HashMap<>();
         params.put("station_id_from", stationFrom.getValue() + "");
         params.put("station_id_till", stationTill.getValue() + "");
-        params.put("train", num);
-        params.put("coach_type", place);
-        params.put("model", model);
-        params.put("date_dep", date + "");
+        params.put("train", myTrain.getNum());
+        params.put("coach_type", myTrain.getPlace());
+        params.put("model", myTrain.getModel());
+        params.put("date_dep", myTrain.getDepDate() + "");
         params.put("round_trip", "0");
         params.put("another_ec", "0");
+        return (params);
+    }
+
+    public Map<String, String> getCoachParam(){
+        Map<String, String> params;
+
+        params = new HashMap<>();
+        params.put("station_id_from", stationFrom.getValue() + "");
+        params.put("station_id_till", stationTill.getValue() + "");
+        params.put("train", myTrain.getNum());
+        params.put("coach_num", myTrain.getCoachNum() + "");
+        params.put("coach_class", myTrain.getCoachClass());
+        params.put("coach_type_id", myTrain.getCoachTypeId() + "");
+        params.put("date_dep", myTrain.getDepDate() + "");
+        params.put("scheme_id", "0");
         return (params);
     }
 

@@ -1,79 +1,57 @@
 package com.example.dburtnja.androidticketfinder10.TicketInfo;
 
-import android.widget.CheckBox;
-
-import com.example.dburtnja.androidticketfinder10.MainActivity;
-import com.example.dburtnja.androidticketfinder10.R;
-
-import org.json.JSONObject;
-
-import java.util.List;
-
 /**
- * Created by dburtnja on 06.07.17.
- * Coach type object
+ * Created by denys on 22.07.17.
+ * received train param
  */
 
 public class Train {
-    private Place[] places;
+    private String  num;
+    private long    depDate;
+    private String  place;
+    private String  model;
+    private int     coachNum;
+    private String  coachClass;
+    private int     coachTypeId;
 
-    public Train() {
-        places = new Place[]{
-                new Place("П", true, R.id.checkP),
-                new Place("С1", false, R.id.checkC1),
-                new Place("С2", false, R.id.checkC2),
-                new Place("К", false, R.id.checkK)
-        };
+    public Train(String num, long depDate, String place, String model) {
+        this.num = num;
+        this.depDate = depDate;
+        this.place = place;
+        this.model = model;
     }
 
-    private class Place{
-        private String      name;
-        private boolean     value;
-        private int         checkID;
-
-        public Place(String name, boolean value, int checkID) {
-            this.name = name;
-            this.value = value;
-            this.checkID = checkID;
-        }
-
-        public void setValue(int id, boolean value){
-            if (id == checkID)
-                this.value = value;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public boolean isValue() {
-            return value;
-        }
+    public void setCoach(int coachNum, String coachClass, int coachTypeId){
+        this.coachNum = coachNum;
+        this.coachClass = coachClass;
+        this.coachTypeId = coachTypeId;
     }
 
-    public boolean isSuitable(String type){
-        for (Place place : places){
-            if (place.isValue() && place.getName().equals(type))
-                return true;
-        }
-        return false;
+    public String getNum() {
+        return num;
     }
 
-    public void changeCoach(CheckBox[] checkBoxes){
-        for (CheckBox checkBox : checkBoxes){
-            for (Place place : places){
-                place.setValue(checkBox.getId(), checkBox.isChecked());
-            }
-        }
+    public long getDepDate() {
+        return depDate;
     }
 
-    public boolean coachIsSet(MainActivity activity){
+    public String getPlace() {
+        return place;
+    }
 
-        for (Place place : places){
-            if (place.isValue())
-                return true;
-        }
-        activity.toast("Не вказаний тип вагону", true);
-        return false;
+    public String getModel() {
+        return model;
+    }
+
+    public int getCoachNum() {
+        return coachNum;
+    }
+
+    public String getCoachClass() {
+        return coachClass;
+    }
+
+    public int getCoachTypeId() {
+        return coachTypeId;
     }
 }

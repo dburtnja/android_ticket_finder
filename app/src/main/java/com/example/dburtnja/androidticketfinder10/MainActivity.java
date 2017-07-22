@@ -22,7 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.TicketDate;
-import com.example.dburtnja.androidticketfinder10.TicketInfo.Train;
+import com.example.dburtnja.androidticketfinder10.TicketInfo.Places;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         getStationTill = (EditText) findViewById(R.id.stationTill);
         getReplaceStations = (ImageButton) findViewById(R.id.replaceStations);
 
-        ticket = new Ticket(new Train());
+        ticket = new Ticket(new Places());
         ticket.dateFromStart = new TicketDate(this, R.id.dateFromStart, R.id.timeFromStart);
         ticket.dateFromEnd = new TicketDate(this, R.id.dateFromEnd, R.id.timeFromEnd);
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener clickOnPlace = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ticket.getTrain().changeCoach(checkBoxArray);
+                ticket.getPlaces().changeCoach(checkBoxArray);
             }
         };
 

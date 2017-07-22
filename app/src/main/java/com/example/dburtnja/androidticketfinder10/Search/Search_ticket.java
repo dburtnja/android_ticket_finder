@@ -3,16 +3,12 @@ package com.example.dburtnja.androidticketfinder10.Search;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder10.TicketInfo.TicketDate;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,14 +48,6 @@ public class Search_ticket {
             responseCounter++;
         }
         Log.d("response Counter", responseCounter + "");
-        while (responseCounter != ticket.getResponseCounter()) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.d("res", "all Volley is finished");
     }
 
     public void findTicket(){
@@ -67,15 +55,16 @@ public class Search_ticket {
         String          url;
 
         url = "http://booking.uz.gov.ua/purchase/search/";
-        request = new My_StringRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JSONObject  trainList;
+        request = new My_StringRequest(url, ticket, ticket.getSearchParam(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject  trainList;
 
-                if ((trainList = responseToJson(response)) != null)
-                    findPlace(trainList);
-            }
-        }, ticket, ticket.getSearchParam());
+                        if ((trainList = responseToJson(response)) != null)
+                            findPlace(trainList);
+                    }
+        });
         queue.add(request);
     }
 
@@ -83,12 +72,11 @@ public class Search_ticket {
         String      jsonStr;
         JSONObject  jsonObj;
 
-        ticket.responseCounterAdd();
         try {
             jsonStr = new String(response.getBytes("ISO-8859-1"), "UTF-8");
             Log.d("response:88", jsonStr);
             jsonObj = new JSONObject(jsonStr);
-            if (jsonObj.getString("error").equals("true")) {
+            if (jsonObj.has("error") && jsonObj.getString("error").equals("true")) {
                 ticket.setError(jsonObj.getString("value"));
                 return null;
             }
@@ -106,22 +94,23 @@ public class Search_ticket {
 
     private void findPlace(JSONObject dataObj){
         try {
-            JSONArray   trainList;
-            JSONObject  train;
-            long        depDate;
-            String      place;
-            String      model;
+            JSONArray           trainList;
+            JSONObject          train;
+            long                depDate;
+            String              place;
 
             trainList = dataObj.getJSONArray("value");
-            for (int i = 0; i < trainList.length(); i++) {
+            label: for (int i = 0; i < trainList.length(); i++) {
                 train = trainList.getJSONObject(i);
                 depDate = train.getJSONObject("from").getLong("date");
                 if (depDate <= ticket.dateFromEnd.getDateMS()) {
                     for (int j = 0; j < train.getJSONArray("types").length(); j++){
                         place = train.getJSONArray("types").getJSONObject(j).getString("letter");
-                        if (ticket.getTrain().isSuitable(place)) {
-                            model = train.getString("model");
-                            Log.d("trainNbr = ", trainList.getJSONObject(i).getString("num"));
+                        if (ticket.getPlaces().isSuitable(place)) {
+                            ticket.setMyTrain(train.getString("num"), depDate, place, train.getString("model"));
+                            //sending Coaches request
+                            findCoaches(ticket.getCoachesParam());
+                            break label;
                         }
                     }
                 }
@@ -129,5 +118,54 @@ public class Search_ticket {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void findCoaches(Map<String, String> param){
+        String          url;
+        StringRequest   request;
+
+        url = "http://booking.uz.gov.ua/purchase/coaches/";
+        request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject  coaches;
+                JSONObject  coach;
+
+                if ((coaches = responseToJson(response)) != null) {
+                    try {
+                        coach = coaches.getJSONArray("coaches").getJSONObject(0);
+                        ticket.setMyTrainCoach(coach.getInt("num"), coach.getString("coach_class"), coach.getInt("coach_type_id"));
+                        //sending Coach request
+                        findCoach(ticket.getCoachParam());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        queue.add(request);
+    }
+
+    private void findCoach(Map<String, String> param){
+        String          url;
+        StringRequest   request;
+
+        url = "http://booking.uz.gov.ua/purchase/coach/";
+        request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject  coach;
+
+                Log.d("coach", response);
+                if ((coach = responseToJson(response)) != null) {
+                    try {
+                       Log.d("coach", coach.getJSONObject("value").getJSONObject("places").has('Б)));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        queue.add(request);
     }
 }
