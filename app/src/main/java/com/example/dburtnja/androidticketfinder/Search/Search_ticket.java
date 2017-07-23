@@ -1,20 +1,27 @@
-package com.example.dburtnja.androidticketfinder10.Search;
+package com.example.dburtnja.androidticketfinder.Search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
-import com.example.dburtnja.androidticketfinder10.TicketInfo.TicketDate;
+import com.example.dburtnja.androidticketfinder.Main3Activity;
+import com.example.dburtnja.androidticketfinder.MyService;
+import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
+import com.example.dburtnja.androidticketfinder.TicketInfo.TicketDate;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.Map;
 
 /**
@@ -27,12 +34,15 @@ public class Search_ticket {
     private Ticket                      ticket;
     private Context                     service;
     private RequestQueue                queue;
-    public Response.ErrorListener       errorListener;
     private int                         counter;
+    private CookieManager               cookieManager;
+
 
     public Search_ticket(final Ticket ticket, Context service) {
         this.ticket = ticket;
         this.service = service;
+        cookieManager =  new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cookieManager);
         queue = Volley.newRequestQueue(service);
     }
 
@@ -156,10 +166,11 @@ public class Search_ticket {
             public void onResponse(String response) {
                 JSONObject  coach;
 
-                Log.d("coach", response);
                 if ((coach = responseToJson(response)) != null) {
                     try {
-                       Log.d("coach", coach.getJSONObject("value").getJSONObject("places").has('Б)));
+                        do {
+                            ticket.getMyTrain().findPlaceNbr(coach.getJSONObject("value").getJSONObject("places"));
+                        }while (ticket.getMyTrain().getPlaceNbr() > 0 && addToCard(ticket.getAddParam()));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -167,5 +178,42 @@ public class Search_ticket {
             }
         });
         queue.add(request);
+    }
+
+    private boolean addToCard(Map<String, String> param){
+        String          url;
+        StringRequest   request;
+
+        Log.d("placeNbr", ticket.getMyTrain().getPlaceNbr() + "");
+
+        url = "http://booking.uz.gov.ua/cart/add/";
+        request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject  add;
+                Intent      intent;
+                Gson        gson;
+
+                gson = new Gson();
+                intent = new Intent(service, Main3Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if ((add = responseToJson(response)) != null) {
+                    try {
+                        ticket.status = add.getJSONObject("value").getString("page");
+                        Log.d("Page", add.getJSONObject("value").getString("page"));
+                        ticket.haveTicket = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                intent.putExtra("ticket", gson.toJson(ticket));
+                service.startActivity(intent);
+            }
+        });
+        queue.add(request);
+
+        ticket.setCookie(cookieManager);
+        Log.d("COOKIE!!!!!!", ticket.getCookie());
+        return false;
     }
 }

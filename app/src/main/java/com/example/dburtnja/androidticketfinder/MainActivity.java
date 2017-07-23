@@ -1,4 +1,4 @@
-package com.example.dburtnja.androidticketfinder10;
+package com.example.dburtnja.androidticketfinder;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
-import com.example.dburtnja.androidticketfinder10.TicketInfo.TicketDate;
-import com.example.dburtnja.androidticketfinder10.TicketInfo.Places;
+import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
+import com.example.dburtnja.androidticketfinder.TicketInfo.TicketDate;
+import com.example.dburtnja.androidticketfinder.TicketInfo.Places;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageButton     getReplaceStations;
-        final Button    startButton = (Button) findViewById(R.id.start);
-        Button          stopButton;
-        Button          lookUp;
-        final RequestQueue    queue;
+        ImageButton             getReplaceStations;
+        final Button            startButton = (Button) findViewById(R.id.start);
+        Button                  stopButton;
+        Button                  lookUp;
+        final RequestQueue      queue;
 
         queue = Volley.newRequestQueue(this);
         gson = new Gson();
@@ -129,16 +129,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent      intent;
+                int         pendingInt;
 
                 alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 ticket.setName(R.id.firstName, R.id.lastName, MainActivity.this);
                 if (ticket.checkIfAllSet(MainActivity.this, true)){
+                    pendingInt = (int)SystemClock.elapsedRealtime();
                     startButton.setEnabled(false);
                     intent = new Intent(MainActivity.this, MyService.class);
                     intent.putExtra("ticket", gson.toJson(ticket));
-                    pendingIntent = PendingIntent.getService(MainActivity.this, (int)SystemClock.elapsedRealtime(), intent, 0);
-                   // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000, pendingIntent);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), pendingIntent);
+                    intent.putExtra("pendingIntent", pendingInt);
+                    pendingIntent = PendingIntent.getService(MainActivity.this, pendingInt, intent, 0);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000, pendingIntent);
+                    //alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), pendingIntent);
                 }
             }
         });
@@ -159,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startButton.setEnabled(true);
+                alarmManager.cancel(pendingIntent);
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.dburtnja.androidticketfinder10.TicketInfo;
+package com.example.dburtnja.androidticketfinder.TicketInfo;
 
 
 import android.app.DatePickerDialog;
@@ -7,7 +7,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.dburtnja.androidticketfinder10.MainActivity;
+import com.example.dburtnja.androidticketfinder.MainActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

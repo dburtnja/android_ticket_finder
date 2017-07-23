@@ -1,14 +1,15 @@
-package com.example.dburtnja.androidticketfinder10;
+package com.example.dburtnja.androidticketfinder;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
-import android.util.Log;
 
-import com.example.dburtnja.androidticketfinder10.Search.Search_ticket;
-import com.example.dburtnja.androidticketfinder10.TicketInfo.Ticket;
+import com.example.dburtnja.androidticketfinder.Search.Search_ticket;
+import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
 import com.google.gson.Gson;
+
+import java.net.CookieManager;
 
 public class MyService extends Service {
     private Gson    gson;

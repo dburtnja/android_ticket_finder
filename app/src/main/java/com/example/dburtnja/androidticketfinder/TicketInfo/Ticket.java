@@ -1,4 +1,4 @@
-package com.example.dburtnja.androidticketfinder10.TicketInfo;
+package com.example.dburtnja.androidticketfinder.TicketInfo;
 
 import android.util.Log;
 import android.widget.EditText;
@@ -9,15 +9,20 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.dburtnja.androidticketfinder10.MainActivity;
+import com.example.dburtnja.androidticketfinder.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.CookieManager;
+import java.net.HttpCookie;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -34,15 +39,29 @@ public class Ticket {
     private Places          places;
     private String          firstName;
     private String          lastName;
-    public String           cookie;
-    private boolean         haveTicket;
+    private String          stud;
+    private String          cookie;
+    public boolean          haveTicket;
     private Train           myTrain;
-    private String          status;
+    public String           status;
     private boolean         error;
 
     public Ticket(Places places) {
         this.places = places;
         this.haveTicket = false;
+        stud = "";
+    }
+
+    public void setCookie(CookieManager cookieManager){
+        List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
+        for (HttpCookie cookie: cookies) {
+            if (cookie.getName().equals("_gv_sessid"))
+                this.cookie = "_gv_sessid=" + cookie.getValue();
+        }
+    }
+
+    public String getCookie() {
+        return cookie;
     }
 
     public void setMyTrain(String num, long depDate, String place, String model) {
@@ -56,10 +75,6 @@ public class Ticket {
     public void setError(String status){
         error = true;
         this.status = status;
-    }
-
-    public boolean isHaveTicket() {
-        return haveTicket;
     }
 
     public void setSimpleFormats(){
@@ -87,6 +102,10 @@ public class Ticket {
 
     public Station getStationTill() {
         return stationTill;
+    }
+
+    public Train getMyTrain() {
+        return myTrain;
     }
 
     public void setStationFrom(EditText stationName, RequestQueue queue, MainActivity mainActivity){
@@ -168,6 +187,34 @@ public class Ticket {
         params.put("coach_type_id", myTrain.getCoachTypeId() + "");
         params.put("date_dep", myTrain.getDepDate() + "");
         params.put("scheme_id", "0");
+        return (params);
+    }
+
+    public Map<String, String> getAddParam(){
+        SimpleDateFormat    simpleDateFormat;
+        Map<String, String> params;
+
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        params = new HashMap<>();
+        params.put("from", stationFrom.getValue() + "");
+        params.put("to", stationTill.getValue() + "");
+        params.put("train", myTrain.getNum());
+        params.put("date", simpleDateFormat.format(myTrain.getDepDate() * 1000));
+        params.put("round_trip", "0");
+        params.put("places[0][ord]", "0");
+        params.put("places[0][charline]", "");
+        params.put("places[0][wagon_num]", myTrain.getCoachNum() + "");
+        params.put("places[0][wagon_class]", myTrain.getCoachClass());
+        params.put("places[0][wagon_type]", myTrain.getPlace());
+        params.put("places[0][firstname]", firstName);
+        params.put("places[0][lastname]", lastName);
+        params.put("places[0][bedding]", "0");
+        params.put("places[0][child]", "");
+        params.put("places[0][stud]", stud);
+        params.put("places[0][transportation]", "0");
+        params.put("places[0][reserve]", "0");
+        params.put("places[0][place_num]", getMyTrain().getPlaceNbr() + "");
+
         return (params);
     }
 

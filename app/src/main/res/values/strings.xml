@@ -13,4 +13,7 @@
     <string name="start">Почати пошук</string>
     <string name="lookUp">Переглянути</string>
     <string name="stop">Зупинити</string>
+    <string name="openBrowser">Відкрити у браузері</string>
+    <string name="success">Квиток знайдено!</string>
+    <string name="error">Виникла помилка</string>
 </resources>
