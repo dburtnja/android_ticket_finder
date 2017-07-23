@@ -1,9 +1,13 @@
 package com.example.dburtnja.androidticketfinder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,11 +27,12 @@ public class Main3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-        Gson        gson;
-        EditText    cookieHolder;
-        TextView    status;
-        TextView    header;
-        Button      openBrowser;
+        Gson            gson;
+        EditText        cookieHolder;
+        TextView        status;
+        TextView        header;
+        Button          openBrowser;
+        AlarmManager    alarmManager;
 
         status = (TextView) findViewById(R.id.status);
         header = (TextView) findViewById(R.id.header);
@@ -36,7 +41,6 @@ public class Main3Activity extends AppCompatActivity {
         gson = new Gson();
         ticket = gson.fromJson(getIntent().getStringExtra("ticket"), Ticket.class);
         cookieHolder.setText(ticket.getCookie());
-
         if (ticket.haveTicket)
             header.setText(R.string.success);
         else

@@ -1,5 +1,7 @@
 package com.example.dburtnja.androidticketfinder.Search;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -185,7 +187,9 @@ public class Search_ticket {
         StringRequest   request;
 
         Log.d("placeNbr", ticket.getMyTrain().getPlaceNbr() + "");
-
+        stopSearch();
+        ticket.setCookie(cookieManager);
+        Log.d("COOKIE!!!!!!", ticket.getCookie());
         url = "http://booking.uz.gov.ua/cart/add/";
         request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
             @Override
@@ -211,9 +215,15 @@ public class Search_ticket {
             }
         });
         queue.add(request);
-
-        ticket.setCookie(cookieManager);
-        Log.d("COOKIE!!!!!!", ticket.getCookie());
         return false;
+    }
+
+    private void stopSearch(){
+        AlarmManager    alarmManager;
+
+        alarmManager = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
+        if (ticket.pendingIntent != null)
+            alarmManager.cancel(ticket.pendingIntent);
+        ticket.pendingIntent = null;
     }
 }

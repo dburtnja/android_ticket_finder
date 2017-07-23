@@ -1,5 +1,6 @@
 package com.example.dburtnja.androidticketfinder.TicketInfo;
 
+import android.app.PendingIntent;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ public class Ticket {
     private Train           myTrain;
     public String           status;
     private boolean         error;
+    public int              pendingCode;
+    public PendingIntent    pendingIntent;
 
     public Ticket(Places places) {
         this.places = places;

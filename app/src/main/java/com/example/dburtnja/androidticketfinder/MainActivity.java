@@ -129,18 +129,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent      intent;
-                int         pendingInt;
 
                 alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 ticket.setName(R.id.firstName, R.id.lastName, MainActivity.this);
                 if (ticket.checkIfAllSet(MainActivity.this, true)){
-                    pendingInt = (int)SystemClock.elapsedRealtime();
+                    ticket.pendingCode = (int)SystemClock.elapsedRealtime();
                     startButton.setEnabled(false);
                     intent = new Intent(MainActivity.this, MyService.class);
                     intent.putExtra("ticket", gson.toJson(ticket));
-                    intent.putExtra("pendingIntent", pendingInt);
-                    pendingIntent = PendingIntent.getService(MainActivity.this, pendingInt, intent, 0);
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000, pendingIntent);
+                    pendingIntent = PendingIntent.getService(MainActivity.this, ticket.pendingCode, intent, 0);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000 * 2, pendingIntent);
                     //alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), pendingIntent);
                 }
             }
