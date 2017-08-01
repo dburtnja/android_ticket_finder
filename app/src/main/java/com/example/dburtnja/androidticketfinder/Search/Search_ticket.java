@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -36,7 +37,6 @@ public class Search_ticket {
     private Ticket                      ticket;
     private Context                     service;
     private RequestQueue                queue;
-    private int                         counter;
     private CookieManager               cookieManager;
 
 
@@ -146,7 +146,7 @@ public class Search_ticket {
                 if ((coaches = responseToJson(response)) != null) {
                     try {
                         coach = coaches.getJSONArray("coaches").getJSONObject(0);
-                        ticket.setMyTrainCoach(coach.getInt("num"), coach.getString("coach_class"), coach.getInt("coach_type_id"));
+                        ticket.setMyTrainCoach(coach.getInt("num"), coach.getString("coach_class"), coach.getString("type"));
                         //sending Coach request
                         findCoach(ticket.getCoachParam());
                     } catch (JSONException e) {

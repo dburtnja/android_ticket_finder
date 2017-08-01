@@ -49,6 +49,19 @@ public class Ticket {
     public int              pendingCode;
     public PendingIntent    pendingIntent;
 
+    public Ticket(Ticket ticket) {
+        this.stationFrom = ticket.stationFrom;
+        this.stationTill = ticket.stationTill;
+        this.dateFromStart = new TicketDate(ticket.dateFromStart);
+        this.dateFromEnd = new TicketDate(ticket.dateFromEnd);
+        this.bufDateFromStart = new TicketDate(bufDateFromStart);
+        this.places = ticket.places;
+        this.firstName = ticket.firstName;
+        this.lastName = ticket.lastName;
+        this.pendingCode = ticket.pendingCode;
+        this.pendingIntent = ticket.pendingIntent;
+    }
+
     public Ticket(Places places) {
         this.places = places;
         this.haveTicket = false;
@@ -71,8 +84,8 @@ public class Ticket {
         this.myTrain = new Train(num, depDate, place, model);
     }
 
-    public void setMyTrainCoach(int coachNum, String coachClass, int coachTypeId){
-        myTrain.setCoach(coachNum, coachClass, coachTypeId);
+    public void setMyTrainCoach(int coachNum, String coachClass, String coachType){
+        myTrain.setCoach(coachNum, coachClass, coachType);
     }
 
     public void setError(String status){
@@ -178,6 +191,20 @@ public class Ticket {
         return (params);
     }
 
+
+    /**
+     *
+     station_id_from:2218300
+     station_id_till:2200001
+     train:748Ш
+     model:4
+     coach_num:1
+     coach_type:С
+     coach_class:1
+     date_dep:1501769220
+     cached_scheme[0]:К67
+     * @return
+     */
     public Map<String, String> getCoachParam(){
         Map<String, String> params;
 
@@ -185,13 +212,38 @@ public class Ticket {
         params.put("station_id_from", stationFrom.getValue() + "");
         params.put("station_id_till", stationTill.getValue() + "");
         params.put("train", myTrain.getNum());
+        params.put("model", myTrain.getModel());
         params.put("coach_num", myTrain.getCoachNum() + "");
+        params.put("coach_type", myTrain.getCoachType());
         params.put("coach_class", myTrain.getCoachClass());
-        params.put("coach_type_id", myTrain.getCoachTypeId() + "");
         params.put("date_dep", myTrain.getDepDate() + "");
-        params.put("scheme_id", "0");
+        params.put("cached_scheme[0]", "К67");
         return (params);
     }
+
+    /**
+     *
+     * from:2218300
+     to:2200001
+     train:748Ш
+     date:2017-08-03
+
+     round_trip:0
+     places[0][ord]:0
+     places[0][charline]:А
+     places[0][wagon_num]:5
+     places[0][wagon_class]:1
+     places[0][wagon_type]:С
+     places[0][firstname]:dsv
+     places[0][lastname]:sdv
+     places[0][bedding]:0
+     places[0][child]:
+     places[0][stud]:
+     places[0][transportation]:0
+     places[0][reserve]:0
+     places[0][place_num]:32
+     * @return
+     */
 
     public Map<String, String> getAddParam(){
         SimpleDateFormat    simpleDateFormat;
@@ -208,7 +260,7 @@ public class Ticket {
         params.put("places[0][charline]", "");
         params.put("places[0][wagon_num]", myTrain.getCoachNum() + "");
         params.put("places[0][wagon_class]", myTrain.getCoachClass());
-        params.put("places[0][wagon_type]", myTrain.getPlace());
+        params.put("places[0][wagon_type]", myTrain.getCoachType());
         params.put("places[0][firstname]", firstName);
         params.put("places[0][lastname]", lastName);
         params.put("places[0][bedding]", "0");

@@ -3,7 +3,9 @@ package com.example.dburtnja.androidticketfinder.Search;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
@@ -30,6 +32,7 @@ public class My_StringRequest extends StringRequest {
         });
         this.ticket = ticket;
         this.param = param;
+        this.setRetryPolicy(new DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override

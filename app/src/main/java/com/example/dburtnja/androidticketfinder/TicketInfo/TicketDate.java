@@ -46,6 +46,17 @@ public class TicketDate {
         return sTimeTicketFormat.format(date);
     }
 
+    public TicketDate(TicketDate ticketDate) {
+        this.sDateFormat = ticketDate.sDateFormat;
+        this.sTimeFromat = ticketDate.sTimeFromat;
+        this.sFormat = ticketDate.sFormat;
+        this.sDateTicketFormat = ticketDate.sDateTicketFormat;
+        this.sTimeTicketFormat = ticketDate.sTimeTicketFormat;
+        this.dateId = ticketDate.dateId;
+        this.timeId = ticketDate.timeId;
+        this.date = ticketDate.date;
+    }
+
     public TicketDate(MainActivity activity, int dateId, int timeId) {
         Calendar    c;
         TextView    dateView;

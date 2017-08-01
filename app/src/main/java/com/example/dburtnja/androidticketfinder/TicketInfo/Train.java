@@ -19,7 +19,7 @@ public class Train {
     private String          model;
     private int             coachNum;
     private String          coachClass;
-    private int             coachTypeId;
+    private String          coachType;
     private int             placeNbr;
     private boolean         up;
     private List<Integer>   checkedPlaces;
@@ -33,10 +33,10 @@ public class Train {
         checkedPlaces = new ArrayList<>();
     }
 
-    public void setCoach(int coachNum, String coachClass, int coachTypeId){
+    public void setCoach(int coachNum, String coachClass, String coachType){
         this.coachNum = coachNum;
         this.coachClass = coachClass;
-        this.coachTypeId = coachTypeId;
+        this.coachType = coachType;
     }
 
     public int getPlaceNbr() {
@@ -67,8 +67,8 @@ public class Train {
         return coachClass;
     }
 
-    public int getCoachTypeId() {
-        return coachTypeId;
+    public String getCoachType() {
+        return coachType;
     }
 
     private String findKeyLetter(JSONObject places){

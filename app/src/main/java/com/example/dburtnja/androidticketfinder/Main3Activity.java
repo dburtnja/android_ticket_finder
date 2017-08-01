@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +33,6 @@ public class Main3Activity extends AppCompatActivity {
         TextView        status;
         TextView        header;
         Button          openBrowser;
-        AlarmManager    alarmManager;
 
         status = (TextView) findViewById(R.id.status);
         header = (TextView) findViewById(R.id.header);
@@ -40,14 +40,16 @@ public class Main3Activity extends AppCompatActivity {
         cookieHolder = (EditText) findViewById(R.id.cookieHolder);
         gson = new Gson();
         ticket = gson.fromJson(getIntent().getStringExtra("ticket"), Ticket.class);
+        Log.d("coockie:44", ticket.getCookie());
         cookieHolder.setText(ticket.getCookie());
-        if (ticket.haveTicket)
+        if (ticket.haveTicket) {
             header.setText(R.string.success);
-        else
+            status.setText("Натисніть кнопку для вибору та купівлі!");
+        } else {
             header.setText(R.string.error);
-        status.setText(ticket.status);
+            status.setText(ticket.status);
+        }
         playMusic();
-
         openBrowser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +57,7 @@ public class Main3Activity extends AppCompatActivity {
 
                 stopMusic();
                 intent = new Intent(Main3Activity.this, Main2Activity.class);
+                Log.d("coockie61", ticket.getCookie());
                 intent.putExtra("cookie", ticket.getCookie());
                 startActivity(intent);
             }
