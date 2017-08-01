@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.dburtnja.androidticketfinder.MainActivity;
+import com.example.dburtnja.androidticketfinder.Search.MyNotification;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,19 +49,7 @@ public class Ticket {
     private boolean         error;
     public int              pendingCode;
     public PendingIntent    pendingIntent;
-
-    public Ticket(Ticket ticket) {
-        this.stationFrom = ticket.stationFrom;
-        this.stationTill = ticket.stationTill;
-        this.dateFromStart = new TicketDate(ticket.dateFromStart);
-        this.dateFromEnd = new TicketDate(ticket.dateFromEnd);
-        this.bufDateFromStart = new TicketDate(bufDateFromStart);
-        this.places = ticket.places;
-        this.firstName = ticket.firstName;
-        this.lastName = ticket.lastName;
-        this.pendingCode = ticket.pendingCode;
-        this.pendingIntent = ticket.pendingIntent;
-    }
+    public MyNotification   notificator;
 
     public Ticket(Places places) {
         this.places = places;

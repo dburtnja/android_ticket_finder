@@ -43,15 +43,17 @@ public class Search_ticket {
     public Search_ticket(final Ticket ticket, Context service) {
         this.ticket = ticket;
         this.service = service;
-        cookieManager =  new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+        //cookieManager =  new CookieManager(null, CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(cookieManager);
         queue = Volley.newRequestQueue(service);
+        ticket.notificator = new MyNotification(service, ticket);
     }
 
     public void checkForTrain(){
         int     responseCounter;
 
         responseCounter = 0;
+        ticket.notificator.postNotification(ticket);
         ticket.bufDateFromStart = new TicketDate(ticket.dateFromStart.getDate());
         while (ticket.bufDateFromStart.getDate() < ticket.dateFromEnd.getDate()){
             findTicket();
@@ -90,6 +92,7 @@ public class Search_ticket {
             jsonObj = new JSONObject(jsonStr);
             if (jsonObj.has("error") && jsonObj.getString("error").equals("true")) {
                 ticket.setError(jsonObj.getString("value"));
+                ticket.notificator.postNotification(ticket);
                 return null;
             }
             //TODO: need add captcha check!!!
@@ -225,5 +228,6 @@ public class Search_ticket {
         if (ticket.pendingIntent != null)
             alarmManager.cancel(ticket.pendingIntent);
         ticket.pendingIntent = null;
+        ticket.notificator = null;
     }
 }

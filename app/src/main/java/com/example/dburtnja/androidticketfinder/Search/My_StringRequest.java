@@ -1,5 +1,8 @@
 package com.example.dburtnja.androidticketfinder.Search;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -28,11 +31,12 @@ public class My_StringRequest extends StringRequest {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Помилка", url + error.getMessage() + "");
                 ticket.setError("Помилка: " + url);
+                ticket.notificator.postNotification(ticket);
             }
         });
         this.ticket = ticket;
         this.param = param;
-        this.setRetryPolicy(new DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.setRetryPolicy(new DefaultRetryPolicy(3000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override
