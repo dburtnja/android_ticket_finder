@@ -33,23 +33,23 @@ import java.util.Map;
  */
 
 public class Ticket {
-    private Station         stationFrom;
-    private Station         stationTill;
-    public TicketDate       dateFromStart;
-    public TicketDate       dateFromEnd;
-    public TicketDate       bufDateFromStart;
-    private Places          places;
-    private String          firstName;
-    private String          lastName;
-    private String          stud;
-    private String          cookie;
-    public boolean          haveTicket;
-    private Train           myTrain;
-    public String           status;
-    private boolean         error;
-    public int              pendingCode;
-    public PendingIntent    pendingIntent;
-    public MyNotification   notificator;
+    private Station                 stationFrom;
+    private Station                 stationTill;
+    public TicketDate               dateFromStart;
+    public TicketDate               dateFromEnd;
+    public TicketDate               bufDateFromStart;
+    private Places                  places;
+    private String                  firstName;
+    private String                  lastName;
+    private String                  stud;
+    private String                  cookie;
+    public boolean                  haveTicket;
+    private Train                   myTrain;
+    public String                   status;
+    private boolean                 error;
+    public int                      pendingCode;
+    public transient PendingIntent  pendingIntent;
+    public transient MyNotification notificator;
 
     public Ticket(Places places) {
         this.places = places;

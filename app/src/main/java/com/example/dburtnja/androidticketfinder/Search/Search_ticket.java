@@ -43,7 +43,7 @@ public class Search_ticket {
     public Search_ticket(final Ticket ticket, Context service) {
         this.ticket = ticket;
         this.service = service;
-        //cookieManager =  new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+        cookieManager =  new CookieManager(null, CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(cookieManager);
         queue = Volley.newRequestQueue(service);
         ticket.notificator = new MyNotification(service, ticket);

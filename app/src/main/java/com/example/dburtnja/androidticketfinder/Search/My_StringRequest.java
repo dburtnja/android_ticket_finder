@@ -37,6 +37,7 @@ public class My_StringRequest extends StringRequest {
         this.ticket = ticket;
         this.param = param;
         this.setRetryPolicy(new DefaultRetryPolicy(3000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.setShouldCache(false);
     }
 
     @Override

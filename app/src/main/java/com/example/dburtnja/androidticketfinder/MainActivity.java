@@ -11,7 +11,6 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,8 +24,6 @@ import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder.TicketInfo.TicketDate;
 import com.example.dburtnja.androidticketfinder.TicketInfo.Places;
 import com.google.gson.Gson;
-
-import java.sql.Time;
 
 public class MainActivity extends AppCompatActivity {
     private Ticket          ticket;
@@ -141,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(MainActivity.this, MyService.class);
                     intent.putExtra("ticket", gson.toJson(ticket));
                     pendingIntent = PendingIntent.getService(MainActivity.this, ticket.pendingCode, intent, 0);
-                    Log.d("time", android.text.format.Time.MINUTE + "");
                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000 * 2, pendingIntent);
                     //alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), pendingIntent);
                 }
