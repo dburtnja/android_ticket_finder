@@ -42,7 +42,6 @@ public class MyService extends Service {
         };
         thread.start();
         Log.d("end", "rservice!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-       // ticket.error = false;
         return super.onStartCommand(intent, flags, startId);
     }
 

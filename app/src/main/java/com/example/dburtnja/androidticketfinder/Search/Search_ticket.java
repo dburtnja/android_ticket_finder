@@ -12,7 +12,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder.Main3Activity;
-import com.example.dburtnja.androidticketfinder.MyService;
 import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder.TicketInfo.TicketDate;
 import com.google.gson.Gson;
@@ -50,18 +49,13 @@ public class Search_ticket {
     }
 
     public void checkForTrain(){
-        int     responseCounter;
-
-        responseCounter = 0;
         ticket.notificator.postNotification(ticket);
         ticket.bufDateFromStart = new TicketDate(ticket.dateFromStart.getDate());
         while (ticket.bufDateFromStart.getDate() < ticket.dateFromEnd.getDate()){
             findTicket();
             Log.d("test", ticket.bufDateFromStart.getStrDate() + " " + ticket.bufDateFromStart.getStrTime());
             ticket.bufDateFromStart = new TicketDate(ticket.bufDateFromStart.getNextDayTime());
-            responseCounter++;
         }
-        Log.d("response Counter", responseCounter + "");
     }
 
     public void findTicket(){
@@ -74,7 +68,7 @@ public class Search_ticket {
                     @Override
                     public void onResponse(String response) {
                         JSONObject  trainList;
-
+sleep();
                         if ((trainList = responseToJson(response)) != null)
                             findPlace(trainList);
                     }
@@ -146,6 +140,8 @@ public class Search_ticket {
                 JSONObject  coaches;
                 JSONObject  coach;
 
+                sleep();
+
                 if ((coaches = responseToJson(response)) != null) {
                     try {
                         coach = coaches.getJSONArray("coaches").getJSONObject(0);
@@ -170,6 +166,8 @@ public class Search_ticket {
             @Override
             public void onResponse(String response) {
                 JSONObject  coach;
+
+                sleep();
 
                 if ((coach = responseToJson(response)) != null) {
                     try {
@@ -204,6 +202,9 @@ public class Search_ticket {
                 gson = new Gson();
                 intent = new Intent(service, Main3Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                sleep();
+
                 if ((add = responseToJson(response)) != null) {
                     try {
                         ticket.status = add.getJSONObject("value").getString("page");
@@ -219,6 +220,14 @@ public class Search_ticket {
         });
         queue.add(request);
         return false;
+    }
+
+    private void sleep(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void stopSearch(){
