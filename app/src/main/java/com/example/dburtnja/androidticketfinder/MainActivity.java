@@ -22,7 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder.TicketInfo.TicketDate;
-import com.example.dburtnja.androidticketfinder.TicketInfo.Places;
+import com.example.dburtnja.androidticketfinder.model.Places;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
@@ -130,41 +130,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent      intent;
 
-                alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 ticket.setName(R.id.firstName, R.id.lastName, MainActivity.this);
                 if (ticket.checkIfAllSet(MainActivity.this, true)){
                     ticket.pendingCode = (int)SystemClock.elapsedRealtime();
-                    startButton.setEnabled(false);
-                    intent = new Intent(MainActivity.this, MyService.class);
                     intent.putExtra("ticket", gson.toJson(ticket));
                     pendingIntent = PendingIntent.getService(MainActivity.this, ticket.pendingCode, intent, 0);
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000 * 2, pendingIntent);
-                    //alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), pendingIntent);
                 }
             }
         });
 
-        lookUp.setEnabled(false);
-        lookUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent  intent;
-
-                if (ticket.checkIfAllSet(MainActivity.this, false)) {
-                    intent = new Intent(MainActivity.this, Main2Activity.class);
-                    intent.putExtra("ticket", gson.toJson(ticket));
-                    startActivity(intent);
-                }
-            }
-        });
-
-        stopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startButton.setEnabled(true);
-                alarmManager.cancel(pendingIntent);
-            }
-        });
     }
 
     public boolean toast(String msg, Boolean vibrate) {

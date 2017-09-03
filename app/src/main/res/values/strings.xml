@@ -16,4 +16,6 @@
     <string name="openBrowser">Відкрити у браузері</string>
     <string name="success">Квиток знайдено!</string>
     <string name="error">Виникла помилка</string>
+    <string name="add">Додати</string>
+    <string name="stud">Студентський</string>
 </resources>

@@ -21,7 +21,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String  USER_TABLE_NAME = "users";
     public static final String  KEY_ID = "_id";
     public static final String  KEY_STATION_FROM = "from";
+    public static final String  KEY_STATION_FROM_VALUE = "from_val";
     public static final String  KEY_STATION_TILL = "till";
+    public static final String  KEY_STATION_TILL_VALUE = "till_val";
     public static final String  KEY_DATE_FROM = "date_from";
     public static final String  KEY_DATE_TILL = "date_till";
     public static final String  KEY_FIRST_NAME = "first_name";
@@ -39,7 +41,9 @@ public class DbHelper extends SQLiteOpenHelper {
         query = "CREATE TABLE " + USER_TABLE_NAME + "(" +
                 KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 KEY_STATION_FROM + " TEXT NOT NULL, " +
+                KEY_STATION_FROM_VALUE + "INTEGER NOT NULL, " +
                 KEY_STATION_TILL + " TEXT NOT NULL, " +
+                KEY_STATION_TILL_VALUE + "INTEGER NOT NULL, " +
                 KEY_DATE_FROM + " INTEGER NOT NULL, " +
                 KEY_DATE_TILL + " INTEGER NOT NULL, " +
                 KEY_FIRST_NAME + " TEXT NOT NULL, " +
@@ -54,14 +58,14 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    private long insertIntoDB(ContentValues passenger) {
+    public long insertIntoDB(ContentValues passenger) {
         SQLiteDatabase  database;
 
         database = this.getWritableDatabase();
         return database.insert(USER_TABLE_NAME, null, passenger);
     }
 
-    private ArrayList<ContentValues> getPassengerList() {
+    public ArrayList<ContentValues> getPassengerList() {
         SQLiteDatabase              database;
         Cursor                      cursor;
         ArrayList<ContentValues>    list;
@@ -86,7 +90,9 @@ public class DbHelper extends SQLiteOpenHelper {
             value = new ContentValues();
             value.put(KEY_ID, cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             value.put(KEY_STATION_FROM, cursor.getString(cursor.getColumnIndex(KEY_STATION_FROM)));
+            value.put(KEY_STATION_FROM_VALUE, cursor.getInt(cursor.getColumnIndex(KEY_STATION_FROM_VALUE)));
             value.put(KEY_STATION_TILL, cursor.getString(cursor.getColumnIndex(KEY_STATION_TILL)));
+            value.put(KEY_STATION_TILL_VALUE, cursor.getInt(cursor.getColumnIndex(KEY_STATION_TILL_VALUE)));
             value.put(KEY_DATE_FROM, cursor.getInt(cursor.getColumnIndex(KEY_DATE_FROM)));
             value.put(KEY_DATE_TILL, cursor.getInt(cursor.getColumnIndex(KEY_DATE_TILL)));
             value.put(KEY_FIRST_NAME, cursor.getString(cursor.getColumnIndex(KEY_FIRST_NAME)));

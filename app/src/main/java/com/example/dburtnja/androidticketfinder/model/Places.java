@@ -1,4 +1,4 @@
-package com.example.dburtnja.androidticketfinder.TicketInfo;
+package com.example.dburtnja.androidticketfinder.model;
 
 import android.widget.CheckBox;
 

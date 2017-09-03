@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.dburtnja.androidticketfinder.MainActivity;
 import com.example.dburtnja.androidticketfinder.Search.MyNotification;
+import com.example.dburtnja.androidticketfinder.model.Places;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +39,7 @@ public class Ticket {
     public TicketDate               dateFromStart;
     public TicketDate               dateFromEnd;
     public TicketDate               bufDateFromStart;
-    private Places                  places;
+    private Places places;
     private String                  firstName;
     private String                  lastName;
     private String                  stud;

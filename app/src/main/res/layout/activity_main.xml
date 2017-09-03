@@ -160,22 +160,19 @@
             android:hint="@string/lastName"
             android:inputType="textPersonName" />
 
+        <EditText
+            android:id="@+id/stud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/stud"
+            android:inputType="textPersonName" />
+
         <Button
             android:id="@+id/start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/start" />
+            android:text="@string/add" />
 
-        <Button
-            android:id="@+id/lookUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/lookUp" />
-
-        <Button
-            android:id="@+id/stop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/stop" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

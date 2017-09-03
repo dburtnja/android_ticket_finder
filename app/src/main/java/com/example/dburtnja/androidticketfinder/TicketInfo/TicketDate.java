@@ -30,32 +30,7 @@ public class TicketDate {
     private int                             timeId;
     private long                            date;
 
-    public long getDate() {
-        return date;
-    }
 
-    public long getDateMS(){
-        return date / 1000;
-    }
-
-    public String getStrDate() {
-        return sDateTicketFormat.format(date);
-    }
-
-    public String getStrTime(){
-        return sTimeTicketFormat.format(date);
-    }
-
-    public TicketDate(TicketDate ticketDate) {
-        this.sDateFormat = ticketDate.sDateFormat;
-        this.sTimeFromat = ticketDate.sTimeFromat;
-        this.sFormat = ticketDate.sFormat;
-        this.sDateTicketFormat = ticketDate.sDateTicketFormat;
-        this.sTimeTicketFormat = ticketDate.sTimeTicketFormat;
-        this.dateId = ticketDate.dateId;
-        this.timeId = ticketDate.timeId;
-        this.date = ticketDate.date;
-    }
 
     public TicketDate(MainActivity activity, int dateId, int timeId) {
         Calendar    c;
@@ -84,13 +59,7 @@ public class TicketDate {
         this.date = date;
     }
 
-    public void setSimpleFormat(){
-        sDateFormat = new SimpleDateFormat("Дата: dd.MM.yyyy", Locale.getDefault());
-        sTimeFromat = new SimpleDateFormat("Час: HH:mm", Locale.getDefault());
-        sFormat = new SimpleDateFormat("Дата: dd.MM.yyyy-Час: HH:mm", Locale.getDefault());
-        sDateTicketFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        sTimeTicketFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    }
+
 
     private void writeDate(int h, int m, MainActivity activity){
         TextView    dateView;
