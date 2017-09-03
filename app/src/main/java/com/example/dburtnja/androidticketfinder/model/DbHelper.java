@@ -61,12 +61,12 @@ public class DbHelper extends SQLiteOpenHelper {
         return database.insert(USER_TABLE_NAME, null, passenger);
     }
 
-    private List<ContentValues> getPassengerList() {
-        SQLiteDatabase  database;
-        Cursor          cursor;
-        ArrayList       list;
-        ContentValues   buf;
+    private ArrayList<ContentValues> getPassengerList() {
+        SQLiteDatabase              database;
+        Cursor                      cursor;
+        ArrayList<ContentValues>    list;
 
+        list = null;
         database = this.getReadableDatabase();
         cursor = database.query(USER_TABLE_NAME, null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -78,26 +78,22 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     private ArrayList<ContentValues> DbToList(Cursor cursor) {
-        int id;
-        int from;
-        int till;
-        int dateFrom;
-        int dateTill;
-        int firstName;
-        int lastName;
-        int stud;
+        ArrayList<ContentValues>    values;
+        ContentValues               value;
 
-        id = cursor.getColumnIndex(KEY_ID);
-        from = cursor.getColumnIndex(KEY_STATION_FROM);
-        till = cursor.getColumnIndex(KEY_STATION_TILL);
-        dateFrom = cursor.getColumnIndex(KEY_DATE_FROM);
-        dateTill = cursor.getColumnIndex(KEY_DATE_TILL);
-        firstName = cursor.getColumnIndex(KEY_FIRST_NAME);
-        lastName = cursor.getColumnIndex(KEY_LAST_NAME);
-        stud = cursor.getColumnIndex(KEY_STUD);
-
+        values = new ArrayList<>();
         while (cursor.moveToNext()) {
-
+            value = new ContentValues();
+            value.put(KEY_ID, cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+            value.put(KEY_STATION_FROM, cursor.getString(cursor.getColumnIndex(KEY_STATION_FROM)));
+            value.put(KEY_STATION_TILL, cursor.getString(cursor.getColumnIndex(KEY_STATION_TILL)));
+            value.put(KEY_DATE_FROM, cursor.getInt(cursor.getColumnIndex(KEY_DATE_FROM)));
+            value.put(KEY_DATE_TILL, cursor.getInt(cursor.getColumnIndex(KEY_DATE_TILL)));
+            value.put(KEY_FIRST_NAME, cursor.getString(cursor.getColumnIndex(KEY_FIRST_NAME)));
+            value.put(KEY_LAST_NAME, cursor.getString(cursor.getColumnIndex(KEY_LAST_NAME)));
+            value.put(KEY_STUD, cursor.getString(cursor.getColumnIndex(KEY_STUD)));
+            values.add(value);
         }
+        return values;
     }
 }
