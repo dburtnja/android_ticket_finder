@@ -22,10 +22,20 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder.TicketInfo.TicketDate;
+import com.example.dburtnja.androidticketfinder.model.Passenger;
 import com.example.dburtnja.androidticketfinder.model.Places;
+import com.example.dburtnja.androidticketfinder.view.MainActivityView;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MainActivityView    mainView;
+    private Passenger           passenger;
+
+
+
+
+
     private Ticket          ticket;
     private EditText        getStationFrom;
     private EditText        getStationTill;
@@ -39,6 +49,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        View.OnFocusChangeListener  stationListener;
+
+
+        mainView = new MainActivityView(this);
+        passenger = new Passenger();
+        mainView.setCurrentDate();
+//        stationListener = new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if (!hasFocus && !getStationFrom.getText().toString().equals("")) {
+//                    ticket.setStationFrom(getStationFrom, queue, MainActivity.this);
+//                }
+//            }
+//        };
+        stationListener = (View.OnFocusChangeListener)(view, hasFocus) -> {
+            if (!hasFocus && !getStationFrom.getText().toString().equals("")) {
+                if (view.getId() == R.id.stationFrom)
+                    this.passenger.setFromStation((EditText) view);
+                else if (view.getId() == R.id.stationTill)
+                    this.passenger.setTillStation((EditText) view);
+            }
+        };
+        //set current time
+
+
+
+
+
         ImageButton             getReplaceStations;
         final Button            startButton = (Button) findViewById(R.id.start);
         Button                  stopButton;
@@ -46,11 +84,6 @@ public class MainActivity extends AppCompatActivity {
         final RequestQueue      queue;
 
         queue = Volley.newRequestQueue(this);
-        gson = new Gson();
-        lookUp = (Button) findViewById(R.id.lookUp);
-        stopButton = (Button) findViewById(R.id.stop);
-        getStationFrom = (EditText) findViewById(R.id.stationFrom);
-        getStationTill = (EditText) findViewById(R.id.stationTill);
         getReplaceStations = (ImageButton) findViewById(R.id.replaceStations);
 
         ticket = new Ticket(new Places());
