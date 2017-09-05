@@ -35,19 +35,13 @@ public class DateViewAreaImpl implements DateViewArea{
     }
 
     @Override
-    public void setOnClickListener(Context context) {
-        View.OnClickListener    dateListener;
-        View.OnClickListener    timeListener;
+    public void setOnClickListeners(Context context) {
 
-        dateListener = onDateClick(context);
-        timeListener = onTimeClick(context);
-        this.dateStart.setOnClickListener(dateListener);
-        this.timeStart.setOnClickListener(timeListener);
-        this.dateEnd.setOnClickListener(dateListener);
-        this.timeEnd.setOnClickListener(timeListener);
+        this.dateStart.getDateView().setOnClickListener((view) -> {
+            this.dateStart.showDatePicker(context);
+        });
+        this.dateEnd.setOnClickListener(context);
     }
-
-
 
     /**
      *This method take away hours, seconds, and milliseconds from date
@@ -82,24 +76,4 @@ public class DateViewAreaImpl implements DateViewArea{
     public long getTimeEnd() {
         return this.dateEnd.getValue();
     }
-
-//    public void setTimeFromStart(long time) {
-//        SimpleDateFormat dateFormat;
-//        SimpleDateFormat    timeFormat;
-//
-//        dateFormat = new SimpleDateFormat(VIEW_DATE_FORMAT, Locale.getDefault());
-//        timeFormat = new SimpleDateFormat(VIEW_TIME_FORMAT, Locale.getDefault());
-//        this.dateStart.setText(dateFormat.format(time));
-//        this.timeStart.setText(timeFormat.format(time));
-//    }
-//
-//    public void setTimeFromEnd(long time) {
-//        SimpleDateFormat    dateFormat;
-//        SimpleDateFormat    timeFormat;
-//
-//        dateFormat = new SimpleDateFormat(VIEW_DATE_FORMAT, Locale.getDefault());
-//        timeFormat = new SimpleDateFormat(VIEW_TIME_FORMAT, Locale.getDefault());
-//        this.dateEnd.setText(dateFormat.format(time));
-//        this.timeEnd.setText(timeFormat.format(time));
-//    }
 }

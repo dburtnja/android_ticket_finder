@@ -106,6 +106,6 @@ public class MainActivityView {
     }
 
     public void setOnDateViewListener(Context context) {
-        this.dateView.setOnClickListener(context);
+        this.dateView.setOnClickListeners(context);
     }
 }

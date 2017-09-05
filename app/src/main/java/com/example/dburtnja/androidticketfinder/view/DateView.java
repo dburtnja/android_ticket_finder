@@ -2,9 +2,11 @@ package com.example.dburtnja.androidticketfinder.view;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,32 +28,43 @@ public class DateView {
         this.time = activity.findViewById(timeId);
         this.dateValue = dateValue;
         this.timeValue = timeValue;
+        applyValue();
     }
 
-    private View.OnClickListener onDateClick(Context context) {
-        View.OnClickListener    listener;
-        Calendar calendar;
+    public void showDatePicker(Context context) {
+        DatePickerDialog    datePickerDialog;
+        Calendar            calendar;
 
         calendar = Calendar.getInstance();
-        listener = view -> {
-            DatePickerDialog datePickerDialog;
+        datePickerDialog = new DatePickerDialog(context, 0, (datePicker, year, month, day) -> {
+            Calendar    currentDate;
 
-            datePickerDialog = new DatePickerDialog(context, 0, (datePicker, year, month, day) -> {
-
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        };
-        return listener;
+            currentDate = Calendar.getInstance();
+            currentDate.set(year, month, day);
+            this.dateValue = currentDate.getTimeInMillis();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
     }
 
-    private View.OnClickListener onTimeClick(Context context) {
+    public void showTimePicker(Context context) {
+        TimePickerDialog timePickerDialog;
 
+        timePickerDialog = new TimePickerDialog(context, 0, (timePicker, h, m) -> {
+            Calendar    currentDate;
+
+            currentDate = Calendar.getInstance();
+            currentDate.set(0, 0, 0, h, m);
+            this.timeValue = currentDate.getTimeInMillis();
+        }, 0, 0, true);
+        timePickerDialog.show();
     }
 
     /**
      * This method takes current values of time and date in object parameters
      * and post it to the view in readable format
      */
-    private void applyValue() {
+    public void applyValue() {
         SimpleDateFormat    dateFormat;
         SimpleDateFormat    timeFormat;
 
@@ -63,5 +76,13 @@ public class DateView {
 
     public long getValue() {
         return this.dateValue + this.timeValue;
+    }
+
+    public TextView getDateView() {
+        return date;
+    }
+
+    public TextView getTimeView() {
+        return time;
     }
 }

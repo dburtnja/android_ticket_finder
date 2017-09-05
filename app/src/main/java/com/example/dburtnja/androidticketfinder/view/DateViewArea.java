@@ -7,7 +7,7 @@ import android.content.Context;
  */
 
 public interface DateViewArea {
-    void    setOnClickListener(Context context);
+    void setOnClickListeners(Context context);
     long    getTimeStart();
     long    getTimeEnd();
 }
