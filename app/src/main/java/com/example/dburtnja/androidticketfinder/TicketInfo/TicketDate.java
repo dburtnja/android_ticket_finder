@@ -3,7 +3,6 @@ package com.example.dburtnja.androidticketfinder.TicketInfo;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -108,13 +107,10 @@ public class TicketDate {
 
         cal = Calendar.getInstance();
         cal.setTimeInMillis(date);
-        datePickerDialog = new DatePickerDialog(activity, 0, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                m++;
-                writeDate(y, m, d, activity);
-                ticket.dateFromEnd.setEndDayIfNeeded(ticket.dateFromStart, activity);
-            }
+        datePickerDialog = new DatePickerDialog(activity, 0, (datePicker, y, m, d) -> {
+            m++;
+            writeDate(y, m, d, activity);
+            ticket.dateFromEnd.setEndDayIfNeeded(ticket.dateFromStart, activity);
         },cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();

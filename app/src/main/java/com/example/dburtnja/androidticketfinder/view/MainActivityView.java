@@ -1,20 +1,15 @@
 package com.example.dburtnja.androidticketfinder.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.dburtnja.androidticketfinder.R;
-import com.example.dburtnja.androidticketfinder.model.Station;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -22,30 +17,21 @@ import java.util.Map;
  */
 
 public class MainActivityView {
-    private static final String DATE_FORMAT = "Дата: dd.MM.yyyy";
-    private static final String TIME_FORMAT = "Час: HH:mm";
-
-    private EditText    stationFrom;
-    private EditText    stationTill;
-    private Button      replaceStations;
-    private TextView    dateFromStart;
-    private TextView    timeFromStart;
-    private TextView    dateFromEnd;
-    private TextView    timeFromEnd;
-    private CheckBox[]  places;
-    private EditText    firstName;
-    private EditText    lastName;
-    private EditText    stud;
-    private Button      add;
+    private EditText        stationFrom;
+    private EditText        stationTill;
+    private Button          replaceStations;
+    private DateViewArea    dateView;
+    private CheckBox[]      places;
+    private EditText        firstName;
+    private EditText        lastName;
+    private EditText        stud;
+    private Button          add;
 
     public MainActivityView(Activity activity) {
         this.stationFrom = activity.findViewById(R.id.stationFrom);
         this.stationTill = activity.findViewById(R.id.stationTill);
         this.replaceStations = activity.findViewById(R.id.replaceStations);
-        this.dateFromStart = activity.findViewById(R.id.dateFromStart);
-        this.timeFromStart = activity.findViewById(R.id.timeFromStart);
-        this.dateFromEnd = activity.findViewById(R.id.dateFromEnd);
-        this.timeFromEnd = activity.findViewById(R.id.timeFromEnd);
+        this.dateView = new DateViewAreaImpl(activity);
         this.places = new CheckBox[]{
                 activity.findViewById(R.id.checkP),
                 activity.findViewById(R.id.checkK),
@@ -58,39 +44,13 @@ public class MainActivityView {
         this.add = activity.findViewById(R.id.add);
     }
 
-    public void setCurrentDate() {
-        Date                currentDate;
-        SimpleDateFormat    dateFormat;
-
-        currentDate = Calendar.getInstance().getTime();
-        dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-        this.dateFromStart.setText(dateFormat.format(currentDate));
-        this.dateFromEnd.setText(dateFormat.format(currentDate));
+    public DateViewArea getDateView() {
+        return dateView;
     }
 
-    public void setTimeFromStart(long time) {
-        SimpleDateFormat    dateFormat;
-        SimpleDateFormat    timeFormat;
-
-        dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-        timeFormat = new SimpleDateFormat(TIME_FORMAT, Locale.getDefault());
-        this.dateFromStart.setText(dateFormat.format(time));
-        this.timeFromStart.setText(timeFormat.format(time));
-    }
-
-    public void setTimeFromEnd(long time) {
-        SimpleDateFormat    dateFormat;
-        SimpleDateFormat    timeFormat;
-
-        dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-        timeFormat = new SimpleDateFormat(TIME_FORMAT, Locale.getDefault());
-        this.dateFromEnd.setText(dateFormat.format(time));
-        this.timeFromEnd.setText(timeFormat.format(time));
-    }
-
-    public void onStationEnter(View.OnFocusChangeListener from, View.OnFocusChangeListener till) {
-        this.stationFrom.setOnFocusChangeListener(from);
-        this.stationTill.setOnFocusChangeListener(till);
+    public void onStationEnter(View.OnFocusChangeListener listener) {
+        this.stationFrom.setOnFocusChangeListener(listener);
+        this.stationTill.setOnFocusChangeListener(listener);
     }
 
     public void setStationFromText(String stationName) {
@@ -143,5 +103,9 @@ public class MainActivityView {
 
     public void setOnAddClickListener(View.OnClickListener listener) {
         this.add.setOnClickListener(listener);
+    }
+
+    public void setOnDateViewListener(Context context) {
+        this.dateView.setOnClickListener(context);
     }
 }

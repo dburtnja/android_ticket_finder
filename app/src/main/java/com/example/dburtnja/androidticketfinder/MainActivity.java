@@ -1,7 +1,10 @@
 package com.example.dburtnja.androidticketfinder;
 
+import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
@@ -14,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -27,12 +31,12 @@ import com.example.dburtnja.androidticketfinder.model.Places;
 import com.example.dburtnja.androidticketfinder.view.MainActivityView;
 import com.google.gson.Gson;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class MainActivity extends AppCompatActivity {
 
-    private MainActivityView    mainView;
     private Passenger           passenger;
-
-
 
 
 
@@ -50,28 +54,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         View.OnFocusChangeListener  stationListener;
+        MainActivityView            mainView;
+        RequestQueue                queue;
 
-
+        queue = Volley.newRequestQueue(this);
         mainView = new MainActivityView(this);
         passenger = new Passenger();
-        mainView.setCurrentDate();
-//        stationListener = new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if (!hasFocus && !getStationFrom.getText().toString().equals("")) {
-//                    ticket.setStationFrom(getStationFrom, queue, MainActivity.this);
-//                }
-//            }
-//        };
-        stationListener = (View.OnFocusChangeListener)(view, hasFocus) -> {
+
+        stationListener = (view, hasFocus) -> {
             if (!hasFocus && !getStationFrom.getText().toString().equals("")) {
                 if (view.getId() == R.id.stationFrom)
-                    this.passenger.setFromStation((EditText) view);
+                    this.passenger.getFrom().getStationValue(queue, (EditText) view);
                 else if (view.getId() == R.id.stationTill)
-                    this.passenger.setTillStation((EditText) view);
+                    this.passenger.getTill().getStationValue(queue, (EditText) view);
             }
         };
+
+
         //set current time
+
+        mainView.onStationEnter(stationListener);
+
 
 
 
