@@ -1,11 +1,8 @@
 package com.example.dburtnja.androidticketfinder.view;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.text.format.DateUtils;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.dburtnja.androidticketfinder.R;
 
@@ -26,21 +23,34 @@ public class DateViewAreaImpl implements DateViewArea{
     private DateView    dateStart;
     private DateView    dateEnd;
 
-    public DateViewAreaImpl(Activity activity) {
-        long                dateMS;
+    DateViewAreaImpl(Activity activity) {
+        Calendar    calendarStart;
+        Calendar    calendarEnd;
 
-        dateMS = getDateInMS(Calendar.getInstance().getTime());
-        this.dateStart = new DateView(activity, R.id.dateFromStart, R.id.timeFromStart, dateMS, 0);
-        this.dateEnd = new DateView(activity, R.id.dateFromEnd, R.id.timeFromEnd, dateMS, DateUtils.DAY_IN_MILLIS);
+        calendarStart = Calendar.getInstance();
+        calendarEnd = Calendar.getInstance();
+        calendarStart.set(Calendar.HOUR_OF_DAY, 0);
+        calendarStart.set(Calendar.MINUTE, 0);
+        calendarEnd.set(Calendar.HOUR_OF_DAY, 23);
+        calendarEnd.set(Calendar.MINUTE, 59);
+        this.dateStart = new DateView(activity, R.id.dateFromStart, R.id.timeFromStart, calendarStart);
+        this.dateEnd = new DateView(activity, R.id.dateFromEnd, R.id.timeFromEnd, calendarEnd);
     }
 
     @Override
     public void setOnClickListeners(Context context) {
+        dateStart.onClickListeners(context, this);
+        dateEnd.onClickListeners(context, this);
+    }
 
-        this.dateStart.getDateView().setOnClickListener((view) -> {
-            this.dateStart.showDatePicker(context);
-        });
-        this.dateEnd.setOnClickListener(context);
+    @Override
+    public void notifyValuesHasChanged(DateView changed) {
+        if (dateStart.getValue() >= dateEnd.getValue()) {
+            if (changed == this.dateStart)
+                dateEnd.setEndValues(this.dateStart);
+            else
+                dateStart.setStartValues(this.dateEnd);
+        }
     }
 
     /**

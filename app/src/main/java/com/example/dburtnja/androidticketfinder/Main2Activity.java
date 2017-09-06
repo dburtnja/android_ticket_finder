@@ -9,9 +9,6 @@ import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
-import com.google.gson.Gson;
-
 
 public class Main2Activity extends AppCompatActivity {
     private WebView         webView;

@@ -18,4 +18,11 @@
     <string name="error">Виникла помилка</string>
     <string name="add">Додати</string>
     <string name="stud">Студентський</string>
+
+    //errors empty fields
+    <string name="emptyStationFrom">Станція відправки відсутня</string>
+    <string name="emptyStationTill">Станція прибуття відсутня</string>
+    <string name="emptyPlaceType">Виберіть тип місця</string>
+    <string name="emptyFirstName">Введіть і\'мя</string>
+    <string name="emptyLastName">Введіть прізвище</string>
 </resources>

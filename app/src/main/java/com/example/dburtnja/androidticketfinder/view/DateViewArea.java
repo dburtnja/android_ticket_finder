@@ -7,7 +7,8 @@ import android.content.Context;
  */
 
 public interface DateViewArea {
-    void setOnClickListeners(Context context);
+    void    setOnClickListeners(Context context);
+    void    notifyValuesHasChanged(DateView changed);
     long    getTimeStart();
     long    getTimeEnd();
 }

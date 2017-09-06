@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.dburtnja.androidticketfinder.R;
 
@@ -17,9 +18,7 @@ import java.util.Map;
  */
 
 public class MainActivityView {
-    private EditText        stationFrom;
-    private EditText        stationTill;
-    private Button          replaceStations;
+    private StationViewArea stationViewArea;
     private DateViewArea    dateView;
     private CheckBox[]      places;
     private EditText        firstName;
@@ -28,9 +27,7 @@ public class MainActivityView {
     private Button          add;
 
     public MainActivityView(Activity activity) {
-        this.stationFrom = activity.findViewById(R.id.stationFrom);
-        this.stationTill = activity.findViewById(R.id.stationTill);
-        this.replaceStations = activity.findViewById(R.id.replaceStations);
+        this.stationViewArea = new StationViewArea(activity, R.id.stationFrom, R.id.stationTill, R.id.replaceStations);
         this.dateView = new DateViewAreaImpl(activity);
         this.places = new CheckBox[]{
                 activity.findViewById(R.id.checkP),
@@ -44,25 +41,36 @@ public class MainActivityView {
         this.add = activity.findViewById(R.id.add);
     }
 
-    public DateViewArea getDateView() {
-        return dateView;
-    }
-
     public void onStationEnter(View.OnFocusChangeListener listener) {
-        this.stationFrom.setOnFocusChangeListener(listener);
-        this.stationTill.setOnFocusChangeListener(listener);
+        this.stationViewArea.setListeners(listener);
     }
 
-    public void setStationFromText(String stationName) {
-        this.stationFrom.setText(stationName);
+    public Station getStationFrom() {
+        return stationViewArea.getFrom();
     }
 
-    public void setStationTillText(String stationName) {
-        this.stationTill.setText(stationName);
+    public Station getStationTill() {
+        return stationViewArea.getTill();
     }
 
-    public void onReplaceStationsListener(View.OnClickListener listener) {
-        this.replaceStations.setOnClickListener(listener);
+    public long getStartDate() {
+        return dateView.getTimeStart();
+    }
+
+    public long getEndDate() {
+        return dateView.getTimeEnd();
+    }
+
+    public String getFirstName() {
+        return firstName.getText().toString();
+    }
+
+    public String getLastName() {
+        return lastName.getText().toString();
+    }
+
+    public String getStud() {
+        return stud.getText().toString();
     }
 
     public Map<String, Boolean> getPlacesMap() {
@@ -87,18 +95,6 @@ public class MainActivityView {
             }
         }
         return mapPlaces;
-    }
-
-    public String getFirstName() {
-        return firstName.getText().toString();
-    }
-
-    public String getLastName() {
-        return lastName.getText().toString();
-    }
-
-    public String getStud() {
-        return stud.getText().toString();
     }
 
     public void setOnAddClickListener(View.OnClickListener listener) {

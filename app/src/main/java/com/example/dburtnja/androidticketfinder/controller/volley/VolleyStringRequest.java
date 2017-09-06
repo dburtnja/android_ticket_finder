@@ -27,7 +27,6 @@ public class VolleyStringRequest extends StringRequest {
             errorCounter++;
             Log.e("Volley ERROR", error.getMessage());
         });
-
         this.setRetryPolicy(new DefaultRetryPolicy(3000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         this.setShouldCache(false);
     }

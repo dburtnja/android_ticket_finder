@@ -169,7 +169,7 @@
             android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/start"
+            android:id="@+id/add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add" />
