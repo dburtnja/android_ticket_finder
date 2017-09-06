@@ -6,15 +6,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.example.dburtnja.androidticketfinder.model.DbHelper;
+import com.example.dburtnja.androidticketfinder.view.ListView.ContentValuesAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListUsers extends AppCompatActivity {
+    private DbHelper                dbHelper;
+    private ListView                passengersList;
+    private ContentValuesAdapter    adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_users);
 
+        this.dbHelper = new DbHelper(this);
+        this.passengersList = (ListView) findViewById(R.id.passengersList);
+
+        loadUserList();
+    }
+
+    private void loadUserList() {
+        ArrayList<ContentValues> list;
+
+        list = dbHelper.getPassengerList();
+        if (this.adapter == null) {
+            this.adapter = new ContentValuesAdapter(this, R.layout.row, list);
+            this.passengersList.setAdapter(this.adapter);
+        } else {
+            this.adapter.clear();
+            this.adapter.addAll(list);
+            this.adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -45,6 +74,8 @@ public class ListUsers extends AppCompatActivity {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             values = data.getParcelableExtra("passenger");
+            dbHelper.insertIntoDB(values);
+            loadUserList();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

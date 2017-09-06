@@ -1,6 +1,7 @@
 package com.example.dburtnja.androidticketfinder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.dburtnja.androidticketfinder.controller.volley.StationReceiver;
 import com.example.dburtnja.androidticketfinder.model.Passenger;
-import com.example.dburtnja.androidticketfinder.view.*;
+import com.example.dburtnja.androidticketfinder.view.MainView.MainActivityView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         View.OnFocusChangeListener  stationListener;
-        MainActivityView            mainView;
+        MainActivityView mainView;
         Passenger                   passenger;
 
         mainView = new MainActivityView(this);
@@ -47,17 +48,21 @@ public class MainActivity extends AppCompatActivity {
         mainView.setOnDateViewListener(this);
 
         mainView.setOnAddClickListener(view -> {
+            Intent  intent;
+
             passenger.setFrom(mainView.getStationFrom());
             passenger.setTill(mainView.getStationTill());
             passenger.setDate(mainView.getStartDate(), mainView.getEndDate());
-            passenger.setPlaces(mainView.getPlacesMap());
+            passenger.setPlaces(mainView.getPlaces());
             passenger.setName(mainView.getFirstName(), mainView.getLastName());
             passenger.setStud(mainView.getStud());
             if (passenger.isAllSet(this)) {
-                toast("все працює",false);
+                intent = new Intent();
+                intent.putExtra("passenger", passenger.getAsContentValues());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
-
     }
 
     public boolean toast(int stringId, Boolean vibrate) {

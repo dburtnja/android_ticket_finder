@@ -1,4 +1,4 @@
-package com.example.dburtnja.androidticketfinder.view;
+package com.example.dburtnja.androidticketfinder.view.MainView;
 
 import android.widget.EditText;
 

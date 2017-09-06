@@ -15,17 +15,18 @@ import java.util.List;
  */
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int    DB_VERSION = 1;
+    private static final int    DB_VERSION = 2;
     private static final String DB_NAME = "TicketFinderDB";
 
     public static final String  USER_TABLE_NAME = "users";
     public static final String  KEY_ID = "_id";
-    public static final String  KEY_STATION_FROM = "from";
+    public static final String  KEY_STATION_FROM = "from_s";
     public static final String  KEY_STATION_FROM_VALUE = "from_val";
-    public static final String  KEY_STATION_TILL = "till";
+    public static final String  KEY_STATION_TILL = "till_s";
     public static final String  KEY_STATION_TILL_VALUE = "till_val";
     public static final String  KEY_DATE_FROM = "date_from";
     public static final String  KEY_DATE_TILL = "date_till";
+    public static final String  KEY_PLACE = "place";
     public static final String  KEY_FIRST_NAME = "first_name";
     public static final String  KEY_LAST_NAME = "last_name";
     public static final String  KEY_STUD = "stud";
@@ -41,11 +42,12 @@ public class DbHelper extends SQLiteOpenHelper {
         query = "CREATE TABLE " + USER_TABLE_NAME + "(" +
                 KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 KEY_STATION_FROM + " TEXT NOT NULL, " +
-                KEY_STATION_FROM_VALUE + "INTEGER NOT NULL, " +
+                KEY_STATION_FROM_VALUE + " INTEGER NOT NULL, " +
                 KEY_STATION_TILL + " TEXT NOT NULL, " +
-                KEY_STATION_TILL_VALUE + "INTEGER NOT NULL, " +
+                KEY_STATION_TILL_VALUE + " INTEGER NOT NULL, " +
                 KEY_DATE_FROM + " INTEGER NOT NULL, " +
                 KEY_DATE_TILL + " INTEGER NOT NULL, " +
+                KEY_PLACE + " INTEGER NOT NULL, " +
                 KEY_FIRST_NAME + " TEXT NOT NULL, " +
                 KEY_LAST_NAME + " TEXT NOT NULL, " +
                 KEY_STUD + " TEXT)";
@@ -54,7 +56,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + USER_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
@@ -70,22 +72,18 @@ public class DbHelper extends SQLiteOpenHelper {
         Cursor                      cursor;
         ArrayList<ContentValues>    list;
 
-        list = null;
+        list = new ArrayList<>();
         database = this.getReadableDatabase();
         cursor = database.query(USER_TABLE_NAME, null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            list = DbToList(cursor);
-        }
+        list = DbToList(cursor, list);
         cursor.close();
         database.close();
         return list;
     }
 
-    private ArrayList<ContentValues> DbToList(Cursor cursor) {
-        ArrayList<ContentValues>    values;
+    private ArrayList<ContentValues> DbToList(Cursor cursor, ArrayList<ContentValues> values) {
         ContentValues               value;
 
-        values = new ArrayList<>();
         while (cursor.moveToNext()) {
             value = new ContentValues();
             value.put(KEY_ID, cursor.getInt(cursor.getColumnIndex(KEY_ID)));
@@ -95,6 +93,7 @@ public class DbHelper extends SQLiteOpenHelper {
             value.put(KEY_STATION_TILL_VALUE, cursor.getInt(cursor.getColumnIndex(KEY_STATION_TILL_VALUE)));
             value.put(KEY_DATE_FROM, cursor.getInt(cursor.getColumnIndex(KEY_DATE_FROM)));
             value.put(KEY_DATE_TILL, cursor.getInt(cursor.getColumnIndex(KEY_DATE_TILL)));
+            value.put(KEY_PLACE, cursor.getInt(cursor.getColumnIndex(KEY_PLACE)));
             value.put(KEY_FIRST_NAME, cursor.getString(cursor.getColumnIndex(KEY_FIRST_NAME)));
             value.put(KEY_LAST_NAME, cursor.getString(cursor.getColumnIndex(KEY_LAST_NAME)));
             value.put(KEY_STUD, cursor.getString(cursor.getColumnIndex(KEY_STUD)));

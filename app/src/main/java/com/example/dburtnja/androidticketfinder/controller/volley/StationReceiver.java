@@ -1,12 +1,11 @@
 package com.example.dburtnja.androidticketfinder.controller.volley;
 
 import android.content.Context;
-import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.example.dburtnja.androidticketfinder.view.Station;
+import com.example.dburtnja.androidticketfinder.view.MainView.Station;
 
 import org.json.JSONArray;
 import org.json.JSONException;
