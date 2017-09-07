@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.dburtnja.androidticketfinder.view.MainView.Station;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,38 +70,79 @@ public class DbHelper extends SQLiteOpenHelper {
         return database.insert(USER_TABLE_NAME, null, passenger);
     }
 
-    public ArrayList<ContentValues> getPassengerList() {
-        SQLiteDatabase              database;
-        Cursor                      cursor;
-        ArrayList<ContentValues>    list;
+//    public void getPassengerList(List<ContentValues> newList) {
+//        SQLiteDatabase              database;
+//        Cursor                      cursor;
+//        ArrayList<ContentValues>    list;
+//
+//        list = new ArrayList<>();
+//        database = this.getReadableDatabase();
+//        cursor = database.query(USER_TABLE_NAME, null, null, null, null, null, null);
+//        list = DbToList(cursor, list);
+//        cursor.close();
+//        database.close();
+//        return list;
+//    }
+
+    public List<Passenger> getPassengerList() {
+        SQLiteDatabase          database;
+        Cursor                  cursor;
+        ArrayList<Passenger>    list;
 
         list = new ArrayList<>();
-        database = this.getReadableDatabase();
+        database = getReadableDatabase();
         cursor = database.query(USER_TABLE_NAME, null, null, null, null, null, null);
-        list = DbToList(cursor, list);
+        DbToList(cursor, list);
         cursor.close();
         database.close();
         return list;
     }
 
-    private ArrayList<ContentValues> DbToList(Cursor cursor, ArrayList<ContentValues> values) {
-        ContentValues               value;
+    private void DbToList(Cursor cursor, ArrayList<Passenger> list) {
+        Passenger   buffer;
 
         while (cursor.moveToNext()) {
-            value = new ContentValues();
-            value.put(KEY_ID, cursor.getInt(cursor.getColumnIndex(KEY_ID)));
-            value.put(KEY_STATION_FROM, cursor.getString(cursor.getColumnIndex(KEY_STATION_FROM)));
-            value.put(KEY_STATION_FROM_VALUE, cursor.getInt(cursor.getColumnIndex(KEY_STATION_FROM_VALUE)));
-            value.put(KEY_STATION_TILL, cursor.getString(cursor.getColumnIndex(KEY_STATION_TILL)));
-            value.put(KEY_STATION_TILL_VALUE, cursor.getInt(cursor.getColumnIndex(KEY_STATION_TILL_VALUE)));
-            value.put(KEY_DATE_FROM, cursor.getInt(cursor.getColumnIndex(KEY_DATE_FROM)));
-            value.put(KEY_DATE_TILL, cursor.getInt(cursor.getColumnIndex(KEY_DATE_TILL)));
-            value.put(KEY_PLACE, cursor.getInt(cursor.getColumnIndex(KEY_PLACE)));
-            value.put(KEY_FIRST_NAME, cursor.getString(cursor.getColumnIndex(KEY_FIRST_NAME)));
-            value.put(KEY_LAST_NAME, cursor.getString(cursor.getColumnIndex(KEY_LAST_NAME)));
-            value.put(KEY_STUD, cursor.getString(cursor.getColumnIndex(KEY_STUD)));
-            values.add(value);
+            buffer = new Passenger();
+            buffer.setFrom(new Station(
+                    cursor.getString(cursor.getColumnIndex(KEY_STATION_FROM)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_STATION_FROM_VALUE))
+            ));
+            buffer.setTill(new Station(
+                    cursor.getString(cursor.getColumnIndex(KEY_STATION_TILL)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_STATION_TILL_VALUE))
+            ));
+            buffer.setDate(
+                    cursor.getLong(cursor.getColumnIndex(KEY_DATE_FROM)),
+                    cursor.getLong(cursor.getColumnIndex(KEY_DATE_TILL))
+            );
+            buffer.setPlaces(cursor.getInt(cursor.getColumnIndex(KEY_PLACE)));
+            buffer.setName(
+                    cursor.getString(cursor.getColumnIndex(KEY_FIRST_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_LAST_NAME))
+            );
+            buffer.setStud(cursor.getString(cursor.getColumnIndex(KEY_STUD)));
+            list.add(buffer);
         }
-        return values;
     }
+
+//    private ArrayList<ContentValues> DbToList(Cursor cursor, ArrayList<ContentValues> values) {
+//        ContentValues               value;
+//
+//        while (cursor.moveToNext()) {
+//            value = new ContentValues();
+//            value.put(KEY_ID, cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+//            value.put(KEY_STATION_FROM, cursor.getString(cursor.getColumnIndex(KEY_STATION_FROM)));
+//            value.put(KEY_STATION_FROM_VALUE, cursor.getInt(cursor.getColumnIndex(KEY_STATION_FROM_VALUE)));
+//            value.put(KEY_STATION_TILL, cursor.getString(cursor.getColumnIndex(KEY_STATION_TILL)));
+//            value.put(KEY_STATION_TILL_VALUE, cursor.getInt(cursor.getColumnIndex(KEY_STATION_TILL_VALUE)));
+//            value.put(KEY_DATE_FROM, cursor.getInt(cursor.getColumnIndex(KEY_DATE_FROM)));
+//            value.put(KEY_DATE_TILL, cursor.getInt(cursor.getColumnIndex(KEY_DATE_TILL)));
+//            value.put(KEY_PLACE, cursor.getInt(cursor.getColumnIndex(KEY_PLACE)));
+//            value.put(KEY_FIRST_NAME, cursor.getString(cursor.getColumnIndex(KEY_FIRST_NAME)));
+//            value.put(KEY_LAST_NAME, cursor.getString(cursor.getColumnIndex(KEY_LAST_NAME)));
+//            value.put(KEY_STUD, cursor.getString(cursor.getColumnIndex(KEY_STUD)));
+//            values.add(value);
+//        }
+//        return values;
+//    }values
 }

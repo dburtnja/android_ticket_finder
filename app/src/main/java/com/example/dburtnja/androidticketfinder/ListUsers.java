@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.dburtnja.androidticketfinder.model.DbHelper;
-import com.example.dburtnja.androidticketfinder.view.ListView.ContentValuesAdapter;
+import com.example.dburtnja.androidticketfinder.model.Passenger;
+import com.example.dburtnja.androidticketfinder.view.ListView.PassengerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.List;
 public class ListUsers extends AppCompatActivity {
     private DbHelper                dbHelper;
     private ListView                passengersList;
-    private ContentValuesAdapter    adapter;
+    private PassengerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +31,26 @@ public class ListUsers extends AppCompatActivity {
         this.dbHelper = new DbHelper(this);
         this.passengersList = (ListView) findViewById(R.id.passengersList);
 
+        this.passengersList.setOnItemClickListener((adapterView, view, pos, l) -> {
+            System.out.println("short: " + pos);
+        });
+
+        this.passengersList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println("Long: " + i);
+                return true;
+            }
+        });
         loadUserList();
     }
 
     private void loadUserList() {
-        ArrayList<ContentValues> list;
+        List<Passenger> list;
 
         list = dbHelper.getPassengerList();
         if (this.adapter == null) {
-            this.adapter = new ContentValuesAdapter(this, R.layout.row, list);
+            this.adapter = new PassengerAdapter(this, R.layout.row, list);
             this.passengersList.setAdapter(this.adapter);
         } else {
             this.adapter.clear();

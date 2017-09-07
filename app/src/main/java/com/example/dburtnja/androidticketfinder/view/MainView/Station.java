@@ -23,6 +23,11 @@ public class Station {
         this.value = station.getValue();
     }
 
+    public Station(String name, int value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public void setStation(String name, int value) {
         this.stationView.setText(name);
         this.name = name;
