@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.dburtnja.androidticketfinder.R;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 
 public class PassengerAdapter extends ArrayAdapter<Passenger> {
+    public static final String TIME_VIEW = "dd.MM.yyyy hh:mm";
 
     public PassengerAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Passenger> contentValues) {
         super(context,resource, contentValues);
@@ -37,6 +39,14 @@ public class PassengerAdapter extends ArrayAdapter<Passenger> {
         if (passenger != null) {
             ((TextView) convertView.findViewById(R.id.first_name)).setText(passenger.getFirstName());
             ((TextView) convertView.findViewById(R.id.last_name)).setText(passenger.getLastName());
+            ((TextView) convertView.findViewById(R.id.from)).setText(passenger.getFrom().getName());
+            ((TextView) convertView.findViewById(R.id.till)).setText(passenger.getTill().getName());
+            ((CheckBox) convertView.findViewById(R.id.p_check)).setChecked(passenger.isPlaceP());
+            ((CheckBox) convertView.findViewById(R.id.k_check)).setChecked(passenger.isPlaceK());
+            ((CheckBox) convertView.findViewById(R.id.c1_check)).setChecked(passenger.isPlaceC1());
+            ((CheckBox) convertView.findViewById(R.id.c2_check)).setChecked(passenger.isPlaceC2());
+            ((TextView) convertView.findViewById(R.id.dateStart)).setText(passenger.dateStartAsString(TIME_VIEW));
+            ((TextView) convertView.findViewById(R.id.dateEnd)).setText(passenger.dateEndAsString(TIME_VIEW));
         }
         return convertView;
     }

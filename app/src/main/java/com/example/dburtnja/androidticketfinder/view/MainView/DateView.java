@@ -92,4 +92,9 @@ class DateView {
     public long getValue() {
         return this.calendar.getTimeInMillis();
     }
+
+    public void setDate(long date) {
+        this.calendar.setTimeInMillis(date);
+        applyValue();
+    }
 }

@@ -5,6 +5,8 @@
     <string name="timeDepStr">Початкова дата відправлення</string>
     <string name="timeDepEndStr">Кінцева дата відправлення</string>
     <string name="Pstr">Плацкарт</string>
+    <string name="P">П</string>
+    <string name="K">К</string>
     <string name="Kstr">Купе</string>
     <string name="C1">C1</string>
     <string name="C2">C2</string>
@@ -25,4 +27,12 @@
     <string name="emptyPlaceType">Виберіть тип місця</string>
     <string name="emptyFirstName">Введіть і\'мя</string>
     <string name="emptyLastName">Введіть прізвище</string>
+    <string name="sameStations">Станція відправлення співпадає із станцією прибуття</string>
+
+    //Alert
+    <string name="removeDialog">Видалення</string>
+    <string name="removeQuestion">Бажаєте видалити елемент?</string>
+    <string name="answerYes">Так</string>
+    <string name="answerNo">Ні</string>
+
 </resources>

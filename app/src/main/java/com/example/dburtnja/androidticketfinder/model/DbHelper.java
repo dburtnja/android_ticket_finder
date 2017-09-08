@@ -70,6 +70,8 @@ public class DbHelper extends SQLiteOpenHelper {
         return database.insert(USER_TABLE_NAME, null, passenger);
     }
 
+
+
 //    public void getPassengerList(List<ContentValues> newList) {
 //        SQLiteDatabase              database;
 //        Cursor                      cursor;
@@ -102,7 +104,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Passenger   buffer;
 
         while (cursor.moveToNext()) {
-            buffer = new Passenger();
+            buffer = new Passenger(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             buffer.setFrom(new Station(
                     cursor.getString(cursor.getColumnIndex(KEY_STATION_FROM)),
                     cursor.getInt(cursor.getColumnIndex(KEY_STATION_FROM_VALUE))
@@ -123,6 +125,20 @@ public class DbHelper extends SQLiteOpenHelper {
             buffer.setStud(cursor.getString(cursor.getColumnIndex(KEY_STUD)));
             list.add(buffer);
         }
+    }
+
+    public void removeItem(Passenger passenger) {
+        SQLiteDatabase  database;
+
+        database = getWritableDatabase();
+        database.delete(USER_TABLE_NAME, KEY_ID + " = " + passenger.getId(), null);
+    }
+
+    public void changePassenger(ContentValues passenger, int id) {
+        SQLiteDatabase  database;
+
+        database = this.getWritableDatabase();
+        database.update(USER_TABLE_NAME, passenger, KEY_ID + " = " + id, null);
     }
 
 //    private ArrayList<ContentValues> DbToList(Cursor cursor, ArrayList<ContentValues> values) {

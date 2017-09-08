@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.example.dburtnja.androidticketfinder.model.Passenger;
+
 /**
  * Created by denys on 9/6/17.
  */
@@ -39,5 +41,10 @@ public class StationViewArea {
         buff = new Station(this.from);
         this.from.setStation(this.till);
         this.till.setStation(buff);
+    }
+
+    public void setStations(Passenger passenger) {
+        this.from.setStation(passenger.getFrom().getName(), passenger.getFrom().getValue());
+        this.till.setStation(passenger.getTill().getName(), passenger.getTill().getValue());
     }
 }

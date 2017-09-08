@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.dburtnja.androidticketfinder.controller.volley.StationReceiver;
 import com.example.dburtnja.androidticketfinder.model.Passenger;
 import com.example.dburtnja.androidticketfinder.view.MainView.MainActivityView;
+import com.example.dburtnja.androidticketfinder.view.MainView.Station;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,11 +26,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         View.OnFocusChangeListener  stationListener;
-        MainActivityView mainView;
+        MainActivityView            mainView;
         Passenger                   passenger;
+        Intent                      intent;
 
         mainView = new MainActivityView(this);
-        passenger = new Passenger();
+        intent = getIntent();
+
+        if (intent.hasExtra("passenger")) {
+            passenger = (Passenger) intent.getSerializableExtra("passenger");
+            mainView.putPassenger(passenger);
+        } else
+            passenger = new Passenger(-1);
 
         stationListener = (view, hasFocus) -> {
             String  stationName;
@@ -43,12 +51,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        mainView.onStationEnter(stationListener);
-
-        mainView.setOnDateViewListener(this);
-
         mainView.setOnAddClickListener(view -> {
-            Intent  intent;
+            Intent  newIntent;
 
             passenger.setFrom(mainView.getStationFrom());
             passenger.setTill(mainView.getStationTill());
@@ -57,12 +61,18 @@ public class MainActivity extends AppCompatActivity {
             passenger.setName(mainView.getFirstName(), mainView.getLastName());
             passenger.setStud(mainView.getStud());
             if (passenger.isAllSet(this)) {
-                intent = new Intent();
-                intent.putExtra("passenger", passenger.getAsContentValues());
-                setResult(RESULT_OK, intent);
+                newIntent = new Intent();
+                newIntent.putExtra("passenger", passenger);
+                setResult(RESULT_OK, newIntent);
                 finish();
             }
         });
+
+        mainView.onStationEnter(stationListener);
+
+        mainView.setOnDateViewListener(this);
+
+
     }
 
     public boolean toast(int stringId, Boolean vibrate) {

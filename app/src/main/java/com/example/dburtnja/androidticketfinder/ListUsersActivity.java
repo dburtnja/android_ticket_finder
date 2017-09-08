@@ -1,27 +1,27 @@
 package com.example.dburtnja.androidticketfinder;
 
-import android.content.ContentValues;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.dburtnja.androidticketfinder.model.DbHelper;
 import com.example.dburtnja.androidticketfinder.model.Passenger;
 import com.example.dburtnja.androidticketfinder.view.ListView.PassengerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListUsers extends AppCompatActivity {
+public class ListUsersActivity extends AppCompatActivity {
+    public static final int         NEW_INPUT = 1;
+    public static final int         UPDATE_INPUT = 2;
+
     private DbHelper                dbHelper;
     private ListView                passengersList;
-    private PassengerAdapter adapter;
+    private PassengerAdapter        adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +32,28 @@ public class ListUsers extends AppCompatActivity {
         this.passengersList = (ListView) findViewById(R.id.passengersList);
 
         this.passengersList.setOnItemClickListener((adapterView, view, pos, l) -> {
-            System.out.println("short: " + pos);
+            Passenger   passenger;
+            Intent      intent;
+
+            intent = new Intent(this, MainActivity.class);
+            passenger = (Passenger) adapterView.getItemAtPosition(pos);
+            intent.putExtra("passenger", passenger);
+            startActivityForResult(intent, UPDATE_INPUT);
         });
 
-        this.passengersList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println("Long: " + i);
-                return true;
-            }
+        this.passengersList.setOnItemLongClickListener((adapterView, view, pos, l) -> {
+            AlertDialog.Builder dialogBuilder;
+
+            dialogBuilder = new AlertDialog.Builder(this)
+                    .setTitle(R.string.removeDialog)
+                    .setMessage(R.string.removeQuestion)
+                    .setPositiveButton(R.string.answerYes, (dialogInterface, i) -> {
+                        dbHelper.removeItem((Passenger) adapterView.getItemAtPosition(pos));
+                        loadUserList();
+                    })
+                    .setNegativeButton(R.string.answerNo, (dialogInterface, i) -> dialogInterface.cancel());
+            dialogBuilder.show();
+            return true;
         });
         loadUserList();
     }
@@ -72,10 +85,10 @@ public class ListUsers extends AppCompatActivity {
                 Intent  intent;
 
                 intent = new Intent(this, MainActivity.class);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, NEW_INPUT);
                 return true;
             case R.id.menu_start:
-                System.out.println("TODO +++++++++++++++++++++++++++++ realise start metod, ListUsers.java:36");
+                System.out.println("TODO +++++++++++++++++++++++++++++ realise start method, ListUsersActivity.java:36");
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -83,11 +96,15 @@ public class ListUsers extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ContentValues   values;
+        Passenger   passenger;
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            values = data.getParcelableExtra("passenger");
-            dbHelper.insertIntoDB(values);
+        if (requestCode == NEW_INPUT && resultCode == RESULT_OK) {
+            passenger = (Passenger) data.getSerializableExtra("passenger");
+            dbHelper.insertIntoDB(passenger.getAsContentValues());
+            loadUserList();
+        } else if (requestCode == UPDATE_INPUT && resultCode == RESULT_OK) {
+            passenger = (Passenger) data.getSerializableExtra("passenger");
+            dbHelper.changePassenger(passenger.getAsContentValues(), passenger.getId());
             loadUserList();
         }
         super.onActivityResult(requestCode, resultCode, data);

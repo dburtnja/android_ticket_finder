@@ -2,11 +2,13 @@ package com.example.dburtnja.androidticketfinder.view.MainView;
 
 import android.widget.EditText;
 
+import java.io.Serializable;
+
 /**
  * Created by denys on 9/6/17.
  */
 
-public class Station {
+public class Station implements Serializable{
     private transient EditText  stationView;
     private String              name;
     private int                 value;
@@ -58,5 +60,24 @@ public class Station {
 
     public void setNameView() {
         this.stationView.setText(name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Station)) return false;
+
+        Station station = (Station) o;
+
+        if (getValue() != station.getValue()) return false;
+        return getName().equals(station.getName());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName().hashCode();
+        result = 31 * result + getValue();
+        return result;
     }
 }
