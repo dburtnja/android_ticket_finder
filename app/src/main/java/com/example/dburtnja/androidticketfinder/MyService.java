@@ -46,14 +46,14 @@ public class MyService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public static void getServicePandingIntent(Context context) {
+    public static PendingIntent getServicePendingIntent(Context context) {
         Intent          intent;
         PendingIntent   pendingIntent;
 
         intent = new Intent(context, MyService.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        pendingIntent = PendingIntent.getActivities(context, REQUEST_CODE, intent, )
-
+        pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, 0);
+        return pendingIntent;
     }
 
 }
