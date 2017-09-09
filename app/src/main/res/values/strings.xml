@@ -19,6 +19,7 @@
     <string name="success">Квиток знайдено!</string>
     <string name="error">Виникла помилка</string>
     <string name="add">Додати</string>
+    <string name="pause">Пауза</string>
     <string name="stud">Студентський</string>
 
     //errors empty fields
@@ -35,4 +36,6 @@
     <string name="answerYes">Так</string>
     <string name="answerNo">Ні</string>
 
+    //Toast
+    <string name="stopFinderMessage">Пошук зупинений</string>
 </resources>

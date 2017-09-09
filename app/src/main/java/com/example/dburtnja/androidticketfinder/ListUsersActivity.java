@@ -1,6 +1,10 @@
 package com.example.dburtnja.androidticketfinder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,10 +92,21 @@ public class ListUsersActivity extends AppCompatActivity {
                 startActivityForResult(intent, NEW_INPUT);
                 return true;
             case R.id.menu_start:
-                System.out.println("TODO +++++++++++++++++++++++++++++ realise start method, ListUsersActivity.java:36");
+                startService();
                 return true;
+            case R.id.menu_pause:
+                ((AlarmManager)getSystemService(ALARM_SERVICE)).cancel(MyService.getServicePendingIntent(this));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startService() {
+        PendingIntent   pendingIntent;
+        AlarmManager    alarmManager;
+
+        pendingIntent = MyService.getServicePendingIntent(this);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), 60000, pendingIntent);
     }
 
     @Override

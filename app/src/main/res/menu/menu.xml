@@ -14,4 +14,10 @@
         app:showAsAction="always"
         android:title="@string/start" />
 
+    <item
+        android:id="@+id/menu_pause"
+        android:icon="@android:drawable/ic_media_pause"
+        android:title="@string/pause"
+        app:showAsAction="always" />
+
 </menu>
