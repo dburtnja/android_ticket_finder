@@ -141,6 +141,10 @@ public class DbHelper extends SQLiteOpenHelper {
         database.update(USER_TABLE_NAME, passenger, KEY_ID + " = " + id, null);
     }
 
+    public boolean hasItems() {
+        return getPassengerList().size() > 0;
+    }
+
 //    private ArrayList<ContentValues> DbToList(Cursor cursor, ArrayList<ContentValues> values) {
 //        ContentValues               value;
 //
