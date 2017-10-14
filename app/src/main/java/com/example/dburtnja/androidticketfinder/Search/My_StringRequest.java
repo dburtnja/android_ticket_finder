@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
@@ -46,6 +47,7 @@ public class My_StringRequest extends StringRequest {
 
         headers = new HashMap<>();
         headers.put("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+        headers.put("Cookie", "_gv_lang=uk; _gat=1");
         return headers;
     }
 
@@ -53,4 +55,17 @@ public class My_StringRequest extends StringRequest {
     protected Map<String, String> getParams() throws AuthFailureError {
         return this.param;
     }
+
+    @Override
+    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+        System.out.println(response.headers);
+
+
+
+        System.out.println(response);
+        System.out.println(response.headers);
+        return super.parseNetworkResponse(response);
+    }
+
+
 }

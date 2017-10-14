@@ -1,18 +1,16 @@
 package com.example.dburtnja.androidticketfinder.Search;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dburtnja.androidticketfinder.Main3Activity;
-import com.example.dburtnja.androidticketfinder.MyService;
 import com.example.dburtnja.androidticketfinder.TicketInfo.Ticket;
 import com.example.dburtnja.androidticketfinder.TicketInfo.TicketDate;
 import com.google.gson.Gson;
@@ -35,16 +33,18 @@ import java.util.Map;
 public class Search_ticket {
     private final static long           DAY = 86400000;
     private Ticket                      ticket;
-    private Context                     service;
+    private Service                     service;
     private RequestQueue                queue;
-    private CookieManager               cookieManager;
+    public boolean                      find;
+    CookieManager                       cookieManager;
 
 
-    public Search_ticket(final Ticket ticket, Context service) {
+
+    public Search_ticket(final Ticket ticket, Service service) {
+        this.find = false;
         this.ticket = ticket;
         this.service = service;
-        cookieManager =  new CookieManager(null, CookiePolicy.ACCEPT_ALL);
-        CookieHandler.setDefault(cookieManager);
+
         queue = Volley.newRequestQueue(service);
         ticket.notificator = new MyNotification(service, ticket);
     }
@@ -68,7 +68,7 @@ public class Search_ticket {
         StringRequest   request;
         String          url;
 
-        url = "http://booking.uz.gov.ua/purchase/search/";
+        url = "https://booking.uz.gov.ua/purchase/search/";
         request = new My_StringRequest(url, ticket, ticket.getSearchParam(),
                 new Response.Listener<String>() {
                     @Override
@@ -139,7 +139,7 @@ public class Search_ticket {
         String          url;
         StringRequest   request;
 
-        url = "http://booking.uz.gov.ua/purchase/coaches/";
+        url = "https://booking.uz.gov.ua/purchase/coaches/";
         request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -165,11 +165,14 @@ public class Search_ticket {
         String          url;
         StringRequest   request;
 
-        url = "http://booking.uz.gov.ua/purchase/coach/";
+        url = "https://booking.uz.gov.ua/purchase/coach/";
         request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JSONObject  coach;
+
+                cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+                CookieHandler.setDefault(cookieManager);
 
                 if ((coach = responseToJson(response)) != null) {
                     try {
@@ -191,15 +194,19 @@ public class Search_ticket {
 
         Log.d("placeNbr", ticket.getMyTrain().getPlaceNbr() + "");
         stopSearch();
-        ticket.setCookie(cookieManager);
-        Log.d("COOKIE!!!!!!", ticket.getCookie());
-        url = "http://booking.uz.gov.ua/cart/add/";
+        url = "https://booking.uz.gov.ua/cart/add/";
         request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JSONObject  add;
                 Intent      intent;
                 Gson        gson;
+
+
+                ticket.setCookie(cookieManager);
+                System.out.println(ticket.getCookie());
+
+                System.out.println(cookieManager.getCookieStore().getCookies());
 
                 gson = new Gson();
                 intent = new Intent(service, Main3Activity.class);
@@ -224,6 +231,7 @@ public class Search_ticket {
     private void stopSearch(){
         AlarmManager    alarmManager;
 
+        this.find = true;
         alarmManager = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
         if (ticket.pendingIntent != null)
             alarmManager.cancel(ticket.pendingIntent);

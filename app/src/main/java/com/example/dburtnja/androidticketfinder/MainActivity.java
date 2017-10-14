@@ -162,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startButton.setEnabled(true);
-                alarmManager.cancel(pendingIntent);
+                if (pendingIntent != null)
+                    alarmManager.cancel(pendingIntent);
             }
         });
     }

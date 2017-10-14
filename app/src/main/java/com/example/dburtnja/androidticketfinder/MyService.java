@@ -27,6 +27,9 @@ public class MyService extends Service {
     public int onStartCommand(final Intent intent, int flags, int startId) {
         Thread          thread;
 
+        if (!intent.hasExtra("ticket"))
+            return super.onStartCommand(intent, flags, startId);
+
         thread = new Thread(){
             @Override
             public void run() {

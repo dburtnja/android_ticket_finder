@@ -294,7 +294,7 @@ public class Ticket {
             JsonArrayRequest    getRequest;
             String              url;
 
-            url = "http://booking.uz.gov.ua/mobile/train_search/station/?term=";
+            url = "https://booking.uz.gov.ua/mobile/train_search/station/?term=";
             try {
                 url = url + URLEncoder.encode(String.valueOf(stationName.getText()), "UTF-8");
             } catch (UnsupportedEncodingException e) {
