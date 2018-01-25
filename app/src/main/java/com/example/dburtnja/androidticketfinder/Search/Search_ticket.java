@@ -68,7 +68,7 @@ public class Search_ticket {
         StringRequest   request;
         String          url;
 
-        url = "https://booking.uz.gov.ua/purchase/search/";
+        url = "https://booking.uz.gov.ua/train_search/";
         request = new My_StringRequest(url, ticket, ticket.getSearchParam(),
                 new Response.Listener<String>() {
                     @Override
@@ -114,15 +114,15 @@ public class Search_ticket {
             long                depDate;
             String              place;
 
-            trainList = dataObj.getJSONArray("value");
+            trainList = dataObj.getJSONObject("data").getJSONArray("list");
             label: for (int i = 0; i < trainList.length(); i++) {
                 train = trainList.getJSONObject(i);
-                depDate = train.getJSONObject("from").getLong("date");
+                depDate = train.getJSONObject("from").getLong("sortTime");
                 if (depDate <= ticket.dateFromEnd.getDateMS()) {
                     for (int j = 0; j < train.getJSONArray("types").length(); j++){
                         place = train.getJSONArray("types").getJSONObject(j).getString("letter");
                         if (ticket.getPlaces().isSuitable(place)) {
-                            ticket.setMyTrain(train.getString("num"), depDate, place, train.getString("model"));
+                            ticket.setMyTrain(train.getString("num"), depDate, place, null);
                             //sending Coaches request
                             findCoaches(ticket.getCoachesParam());
                             break label;
@@ -139,7 +139,7 @@ public class Search_ticket {
         String          url;
         StringRequest   request;
 
-        url = "https://booking.uz.gov.ua/purchase/coaches/";
+        url = "https://booking.uz.gov.ua/train_wagons/";
         request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -148,8 +148,8 @@ public class Search_ticket {
 
                 if ((coaches = responseToJson(response)) != null) {
                     try {
-                        coach = coaches.getJSONArray("coaches").getJSONObject(0);
-                        ticket.setMyTrainCoach(coach.getInt("num"), coach.getString("coach_class"), coach.getString("type"));
+                        coach = coaches.getJSONObject("data").getJSONArray("wagons").getJSONObject(0);
+                        ticket.setMyTrainCoach(coach.getInt("num"), coach.getString("class"), coach.getString("type"));
                         //sending Coach request
                         findCoach(ticket.getCoachParam());
                     } catch (JSONException e) {
@@ -165,7 +165,7 @@ public class Search_ticket {
         String          url;
         StringRequest   request;
 
-        url = "https://booking.uz.gov.ua/purchase/coach/";
+        url = "https://booking.uz.gov.ua/train_wagon/";
         request = new My_StringRequest(url, ticket, param, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

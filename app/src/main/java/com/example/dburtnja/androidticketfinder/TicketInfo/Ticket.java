@@ -153,29 +153,25 @@ public class Ticket {
         Map<String, String> params;
 
         params = new HashMap<>();
-        params.put("station_id_from", stationFrom.getValue() + "");
-        params.put("station_id_till", stationTill.getValue() + "");
-        params.put("station_from", stationFrom.getTitle());
-        params.put("station_till", stationTill.getTitle());
-        params.put("date_dep", bufDateFromStart.getStrDate());
-        params.put("time_dep", bufDateFromStart.getStrTime());
-        params.put("time_dep_till", "");
+        params.put("from", stationFrom.getValue() + "");
+        params.put("to", stationTill.getValue() + "");
+        params.put("date", bufDateFromStart.getStrDate());
+        params.put("time", bufDateFromStart.getStrTime());
         params.put("another_ec", "0");
-        params.put("search", "");
+        params.put("get_tpl", "1");
         return (params);
     }
 
     public Map<String, String> getCoachesParam(){
         Map<String, String> params;
 
+        Log.d("QQQQ", myTrain.getNum());
         params = new HashMap<>();
-        params.put("station_id_from", stationFrom.getValue() + "");
-        params.put("station_id_till", stationTill.getValue() + "");
+        params.put("from", stationFrom.getValue() + "");
+        params.put("to", stationTill.getValue() + "");
+        params.put("date", bufDateFromStart.getStrDate());
         params.put("train", myTrain.getNum());
-        params.put("coach_type", myTrain.getPlace());
-        params.put("model", myTrain.getModel());
-        params.put("date_dep", myTrain.getDepDate() + "");
-        params.put("round_trip", "0");
+        params.put("wagon_type_id", myTrain.getPlace() + "");
         params.put("another_ec", "0");
         return (params);
     }
@@ -198,15 +194,14 @@ public class Ticket {
         Map<String, String> params;
 
         params = new HashMap<>();
-        params.put("station_id_from", stationFrom.getValue() + "");
-        params.put("station_id_till", stationTill.getValue() + "");
+        params.put("from", stationFrom.getValue() + "");
+        params.put("to", stationTill.getValue() + "");
         params.put("train", myTrain.getNum());
-        params.put("model", myTrain.getModel());
-        params.put("coach_num", myTrain.getCoachNum() + "");
-        params.put("coach_type", myTrain.getCoachType());
-        params.put("coach_class", myTrain.getCoachClass());
-        params.put("date_dep", myTrain.getDepDate() + "");
-        params.put("cached_scheme[0]", "К67");
+        params.put("date", bufDateFromStart.getStrDate());
+        params.put("wagon_num", myTrain.getCoachNum() + "");
+        params.put("wagon_type", myTrain.getCoachType());
+        params.put("wagon_class", myTrain.getCoachClass());
+        params.put("cached_scheme[]", "К67");
         return (params);
     }
 
