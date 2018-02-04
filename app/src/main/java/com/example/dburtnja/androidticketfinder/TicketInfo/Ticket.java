@@ -230,18 +230,19 @@ public class Ticket {
      */
 
     public Map<String, String> getAddParam(){
-        SimpleDateFormat    simpleDateFormat;
+//        SimpleDateFormat    simpleDateFormat;
         Map<String, String> params;
 
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         params = new HashMap<>();
-        params.put("from", stationFrom.getValue() + "");
-        params.put("to", stationTill.getValue() + "");
-        params.put("train", myTrain.getNum());
-        params.put("date", simpleDateFormat.format(myTrain.getDepDate() * 1000));
-        params.put("round_trip", "0");
+        params.put("places[0][from]", stationFrom.getValue() + "");
+        params.put("places[0][to]", stationTill.getValue() + "");
+        params.put("places[0][train]", myTrain.getNum());
+        params.put("places[0][date]", bufDateFromStart.getStrDate());
+        params.put("roundtrip", "0");
         params.put("places[0][ord]", "0");
-        params.put("places[0][charline]", "");
+        params.put("places[0][charline]", "Б");
+        params.put("places[0][wagon_railway]", "32");
         params.put("places[0][wagon_num]", myTrain.getCoachNum() + "");
         params.put("places[0][wagon_class]", myTrain.getCoachClass());
         params.put("places[0][wagon_type]", myTrain.getCoachType());
@@ -250,7 +251,6 @@ public class Ticket {
         params.put("places[0][bedding]", "0");
         params.put("places[0][child]", "");
         params.put("places[0][stud]", stud);
-        params.put("places[0][transportation]", "0");
         params.put("places[0][reserve]", "0");
         params.put("places[0][place_num]", getMyTrain().getPlaceNbr() + "");
 

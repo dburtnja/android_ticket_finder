@@ -3,6 +3,7 @@ package com.example.dburtnja.androidticketfinder.TicketInfo;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -39,6 +40,7 @@ public class TicketDate {
     }
 
     public String getStrDate() {
+        Log.d("time", Long.toString(date));
         return sDateTicketFormat.format(date);
     }
 

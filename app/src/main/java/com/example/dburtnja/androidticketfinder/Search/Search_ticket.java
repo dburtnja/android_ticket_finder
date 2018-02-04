@@ -55,12 +55,12 @@ public class Search_ticket {
         responseCounter = 0;
         ticket.notificator.postNotification(ticket);
         ticket.bufDateFromStart = new TicketDate(ticket.dateFromStart.getDate());
-        while (ticket.bufDateFromStart.getDate() < ticket.dateFromEnd.getDate()){
+//        while (ticket.bufDateFromStart.getDate() < ticket.dateFromEnd.getDate()){
             findTicket();
             Log.d("test", ticket.bufDateFromStart.getStrDate() + " " + ticket.bufDateFromStart.getStrTime());
-            ticket.bufDateFromStart = new TicketDate(ticket.bufDateFromStart.getNextDayTime());
-            responseCounter++;
-        }
+//            ticket.bufDateFromStart = new TicketDate(ticket.bufDateFromStart.getNextDayTime());
+//            responseCounter++;
+//        }
         Log.d("response Counter", responseCounter + "");
     }
 
@@ -177,7 +177,7 @@ public class Search_ticket {
                 if ((coach = responseToJson(response)) != null) {
                     try {
                         do {
-                            ticket.getMyTrain().findPlaceNbr(coach.getJSONObject("value").getJSONObject("places"));
+                            ticket.getMyTrain().findPlaceNbr(coach.getJSONObject("data").getJSONObject("places"));
                         }while (ticket.getMyTrain().getPlaceNbr() > 0 && addToCard(ticket.getAddParam()));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -213,8 +213,8 @@ public class Search_ticket {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if ((add = responseToJson(response)) != null) {
                     try {
-                        ticket.status = add.getJSONObject("value").getString("page");
-                        Log.d("Page", add.getJSONObject("value").getString("page"));
+                        ticket.status = add.getJSONObject("data").getString("page");
+                        Log.d("Page", add.getJSONObject("data").getString("page"));
                         ticket.haveTicket = true;
                     } catch (JSONException e) {
                         e.printStackTrace();
