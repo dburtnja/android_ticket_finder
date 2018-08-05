@@ -2,13 +2,144 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="/home/denys/Documents/REPO/android_ticket_finder/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.7\751f548c85fa49f330cecbb1875893f971b33c4e\gson-2.7.jar"
+        jumboMode="false"
+        min-sdk-version="23"
         optimize="true"
-        revision="26.0.0"
-        sha1="5b2c709d8d3ec7c3ce5bda97e24a5d0f70546dfd">
-        <dex dex="/home/denys/Documents/REPO/android_ticket_finder/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_e6258cb5c889f35ae986bf8cd8ae6ff3602a15bc/classes.dex" />
+        revision="26.0.2"
+        sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\b3a888b3d774c4d55de231dfb147b438\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\12.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\b55af29ea74a701bc67400323f14abb7\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\ddcd48d50eadbe9e3c0299d938024218\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\10.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\cb21298cc0ca11ffd08f03873eb55ba9\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\6c8172dc800069501c007eee276caab6\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\volley-1.0.0.aar\cc9777c629f87cb42b341b13d80eff92\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\AppData\Local\Android\Sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\14.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\c0d801a541e5fb9957d7f41607be91e3\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\71a4cfc276dbb05853577cc4e3f51dfb\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\13.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\700179620bf74d77d537ac9234cafcbf\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\472ec56593556a366e80a18810a29b89\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\11.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Denys\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\9ec34fc7d064fcf1d7df184d8ab9ef12\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="23"
+        optimize="true"
+        revision="26.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\Denys\Documents\GIT\ticket\app\build\intermediates\transforms\preDex\release\4.jar" />
     </item>
 
 </items>

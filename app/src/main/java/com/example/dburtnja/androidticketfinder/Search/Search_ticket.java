@@ -131,6 +131,7 @@ public class Search_ticket {
                 }
             }
         } catch (JSONException e) {
+            Log.d("134", e.getMessage());
             e.printStackTrace();
         }
     }
@@ -153,6 +154,7 @@ public class Search_ticket {
                         //sending Coach request
                         findCoach(ticket.getCoachParam());
                     } catch (JSONException e) {
+                        Log.d("157", e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -180,6 +182,7 @@ public class Search_ticket {
                             ticket.getMyTrain().findPlaceNbr(coach.getJSONObject("data").getJSONObject("places"));
                         }while (ticket.getMyTrain().getPlaceNbr() > 0 && addToCard(ticket.getAddParam()));
                     } catch (JSONException e) {
+                        Log.d("185", e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -203,7 +206,8 @@ public class Search_ticket {
                 Gson        gson;
 
 
-                ticket.setCookie(cookieManager);
+                if (ticket.getCookie() == null || ticket.getCookie().isEmpty())
+                    ticket.setCookie(cookieManager);
                 System.out.println(ticket.getCookie());
 
                 System.out.println(cookieManager.getCookieStore().getCookies());
@@ -217,6 +221,7 @@ public class Search_ticket {
                         Log.d("Page", add.getJSONObject("data").getString("page"));
                         ticket.haveTicket = true;
                     } catch (JSONException e) {
+                        Log.d("223", e.getMessage());
                         e.printStackTrace();
                     }
                 }

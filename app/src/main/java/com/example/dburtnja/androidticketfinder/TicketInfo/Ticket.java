@@ -65,6 +65,10 @@ public class Ticket {
         }
     }
 
+    public void setStud(int stud, MainActivity mainActivity) {
+        this.stud = ((TextView) mainActivity.findViewById(stud)).getText().toString();
+    }
+
     public String getCookie() {
         return cookie;
     }
@@ -250,7 +254,7 @@ public class Ticket {
         params.put("places[0][lastname]", lastName);
         params.put("places[0][bedding]", "0");
         params.put("places[0][child]", "");
-        params.put("places[0][stud]", stud);
+        params.put("places[0][student]", stud);
         params.put("places[0][reserve]", "0");
         params.put("places[0][place_num]", getMyTrain().getPlaceNbr() + "");
 

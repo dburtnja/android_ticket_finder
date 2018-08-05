@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -21,7 +22,8 @@ import com.google.gson.Gson;
 
 public class Main3Activity extends AppCompatActivity {
     private Ticket      ticket;
-    private Ringtone    ringtone;
+    private MediaPlayer player;
+//    private Ringtone    ringtone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +70,12 @@ public class Main3Activity extends AppCompatActivity {
         Uri alarm;
 
         alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarm);
-        ringtone.play();
+        player = MediaPlayer.create(this, alarm);
+        player.setLooping(true);
+        player.start();
     }
 
     private void stopMusic(){
-        ringtone.stop();
+        player.stop();
     }
 }

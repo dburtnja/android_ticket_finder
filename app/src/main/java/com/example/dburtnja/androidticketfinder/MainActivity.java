@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
                 alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 ticket.setName(R.id.firstName, R.id.lastName, MainActivity.this);
+                ticket.setStud(R.id.stud, MainActivity.this);
                 if (ticket.checkIfAllSet(MainActivity.this, true)){
                     ticket.pendingCode = (int)SystemClock.elapsedRealtime();
                     startButton.setEnabled(false);
@@ -143,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         lookUp.setEnabled(false);
         lookUp.setOnClickListener(new View.OnClickListener() {
             @Override
